@@ -3,6 +3,7 @@
     <el-row>
       <el-col :span="14">
         <el-button type="primary" icon="el-icon-plus" size="small" @click="addReceive">新增</el-button>
+        <el-button type="primary" icon="el-icon-xiugai" size="small" @click="addReceive">归还</el-button>
         <el-button icon="el-icon-printer" size="small">打印</el-button>
         <el-button icon="el-icon-printer" size="small" @click="exportExcel">导出</el-button>
       </el-col>
@@ -19,81 +20,76 @@
       </el-col>
     </el-row>
     <!-- 领用资产表格 -->
-    <el-table :data="receiveData" border style="width: 100%" align="center">
-      <el-table-column type="selection" width="30"></el-table-column>
-      <el-table-column prop="collar_number" label="领用单号" width="150" align="center"></el-table-column>
-      <el-table-column prop="collar_time" label="领用时间" width="150">
+    <el-table :data="receiveData" border style="width: 100%" >
+      <el-table-column fixed type="selection" width="30"></el-table-column>
+      <el-table-column prop="status" label="状态" width="100" align="center">
+        <template slot-scope="scope">
+          <DaAssetsState :status="scope.row.status"></DaAssetsState>
+        </template>
+      </el-table-column>
+      <el-table-column prop="collar_number" label="借用单号" width="150" align="center"></el-table-column>
+      <el-table-column prop="collar_time" label="借用时间" width="150">
         <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
       </el-table-column>
-      <el-table-column prop="personnel_name" label="领用人" width="150"></el-table-column>
-      <el-table-column prop="department_name" label="领用部门" width="150"></el-table-column>
-      <el-table-column prop="company_name" label="领用使用公司" width="150"></el-table-column>
-      <el-table-column prop="collar_time" label="预计退库时间" width="150">
-        <template slot-scope="scope"></template>
+      <el-table-column prop="personnel_name" label="借用人" width="150"></el-table-column>
+      <el-table-column prop="department_name" label="借用处理人" width="150"></el-table-column>
+      <el-table-column prop="company_name" label="归还处理人" width="150"></el-table-column>
+      <el-table-column prop="collar_time" label="预计归还时间" width="150">
+        <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
       </el-table-column>
-      <el-table-column label="操作" width="120">
+      <el-table-column prop="collar_time" label="归还时间" width="150">
+        <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
+      </el-table-column>
+      <el-table-column fixed="right" label="操作" width="60">
         <template slot-scope="scope">
           <el-button @click="seeReceive(scope.row)" type="text" size="small">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 新增领用资产表单 -->
-    <el-dialog title="领用单" :visible.sync="addReceiveTableVisible" width="80%">
+    <el-dialog title="借用单" :visible.sync="addReceiveTableVisible" width="80%">
       <el-form
         :model="addReceiveData"
         class="demo-form-inline"
         :size="$store.state.uiSize"
-        label-width="80px"
-      >
+        label-width="80px">
         <el-row>
           <el-col :span="8">
-            <el-form-item label="领用人">
+            <el-form-item label="借用人">
               <el-input v-model="selectUser.personnel_name">
                 <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true"></el-button>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="领用时间">
-              <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期"></el-date-picker>
+            <el-form-item label="借出时间">
+              <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择借出日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="预计退库">
-              <el-date-picker v-model="addReceiveData.purchase_time" type="date" placeholder="选择日期"></el-date-picker>
+            <el-form-item label="预计归还">
+              <el-date-picker v-model="addReceiveData.purchase_time" type="date" placeholder="选择归还日期"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="领用公司">
-              <el-input v-model="selectCompany.name" readonly></el-input>
+            <el-form-item label="借出处理">
+              <el-input v-model="selectCompany.name" disabled placeholder="处理人"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="领用部门">
-              <el-input v-model="selectDepartment.name" readonly></el-input>
+            <el-form-item label="归还时间">
+              <el-date-picker v-model="addReceiveData.purchase_time" type="date" placeholder="选择归还日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="存放地点">
-              <el-select placeholder="存放地点" v-model="addReceiveData.warehouse_id">
-                <el-option
-                  v-for="v in $store.state.address"
-                  :key="v.id"
-                  :label="v.name"
-                  :value="v.id"
-                ></el-option>
-              </el-select>
+            <el-form-item label="归还处理">
+              <el-input v-model="selectCompany.name" disabled placeholder="处理人"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="处理人">
-              <el-input placeholder="处理人" v-model="addReceiveData.bar_code" readonly></el-input>
-            </el-form-item>
-          </el-col>
           <el-col :span="14">
             <el-form-item label="说明">
               <el-input type="textarea" v-model="addReceiveData.remarks" width="80%"></el-input>
@@ -288,6 +284,7 @@
   </div>
 </template>
 <script>
+import DaAssetsState from "@/components/DaAssetsState.vue";
 import SelectUser from "@/components/SelectUser.vue";
 import SelectAssets from "@/components/SelectAssets.vue";
 export default {
@@ -416,6 +413,7 @@ export default {
     ];
   },
   components: {
+    DaAssetsState,
     SelectUser,
     SelectAssets
   }

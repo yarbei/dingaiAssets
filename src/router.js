@@ -79,7 +79,15 @@ export default new Router({
         hidden: true,
         component: () => import('@/views/Info/Info.vue'),
         meta: { icon: 'el-icon-qianyuejilu', title: '修改资料' }
-      }]
+      },
+      {
+        path: 'borrow',
+        name: 'borrow',
+        hidden: false,
+        component: () => import('@/views/Borrow/Borrow.vue'),
+        meta: { icon: 'el-icon-jiehuan', title: '借用归还' }
+      }
+      ]
     }
   ]
 })

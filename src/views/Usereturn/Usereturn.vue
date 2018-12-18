@@ -7,7 +7,7 @@
             <Receive></Receive>
         </el-tab-pane>
         <el-tab-pane label="退库" name="return">
-            <Return></Return>
+          <Return></Return>
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -34,7 +34,7 @@ export default {
     Return,
     Breadcrumb
   }
-};
+}
 </script>
 <style lang="less">
 </style>
