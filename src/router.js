@@ -20,7 +20,6 @@ var router = new Router({
       meta: {
         title: '主页'
       },
-<<<<<<< HEAD
       {
         path: 'register',
         name: 'register',
@@ -51,11 +50,9 @@ var router = new Router({
         children: [{
           path: 'bill',
           name: 'bill',
-=======
       children: [{
           path: '',
           name: 'dashboard',
->>>>>>> 700824f1df99f45bb23a64b9e6a98e04bd63fe1d
           hidden: false,
           component: () => import('@/views/Dashboard/Dashboard.vue'),
           meta: {
@@ -77,7 +74,6 @@ var router = new Router({
           path: 'usereturn',
           name: 'usereturn',
           hidden: false,
-<<<<<<< HEAD
           component: () => import('@/views/Summary/Summary.vue'),
           meta: { icon: 'el-icon-yuan', title: '分类汇总' }
         }]
@@ -103,7 +99,6 @@ var router = new Router({
         component: () => import('@/views/Borrow/Borrow.vue'),
         meta: { icon: 'el-icon-jiehuan', title: '借用归还' }
       }
-=======
           component: () => import('@/views/Usereturn/Usereturn.vue'),
           meta: {
             icon: 'el-icon-document',
@@ -181,7 +176,6 @@ var router = new Router({
             title: '修改资料'
           }
         }
->>>>>>> 700824f1df99f45bb23a64b9e6a98e04bd63fe1d
       ]
     }
   ]
