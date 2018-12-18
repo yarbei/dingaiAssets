@@ -51,14 +51,7 @@ var router = new Router({
         hidden: false,
         component: () => import('@/views/Modify/Modify.vue'),
         meta: { icon: 'el-icon-xiugai', title: '信息变更' }
-      }, 
-        {
-          path: 'usereturn',
-          name: 'usereturn',
-          hidden: false,
-          component: () => import('@/views/Summary/Summary.vue'),
-          meta: { icon: 'el-icon-yuan', title: '分类汇总' }
-        },
+      },
         {
         path: 'password',
         name: 'password',
