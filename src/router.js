@@ -20,7 +20,18 @@ var router = new Router({
       meta: {
         title: '主页'
       },
+     children:[
       {
+        path: '',
+        name: 'dashboard',
+        hidden: false,
+        component: () => import('@/views/Dashboard/Dashboard.vue'),
+        meta: {
+          icon: 'el-icon-dashboard',
+          title: '仪表盘'
+        }
+      },
+       {
         path: 'register',
         name: 'register',
         hidden: false,
@@ -40,71 +51,35 @@ var router = new Router({
         hidden: false,
         component: () => import('@/views/Modify/Modify.vue'),
         meta: { icon: 'el-icon-xiugai', title: '信息变更' }
-      },
-      {
-        path: 'census',
-        name: 'census',
-        hidden: false,
-        component: () => import('@/views/Census/Census.vue'),
-        meta: { icon: 'el-icon-qianyuejilu', title: '资产统计' },
-        children: [{
-          path: 'bill',
-          name: 'bill',
-      children: [{
-          path: '',
-          name: 'dashboard',
-          hidden: false,
-          component: () => import('@/views/Dashboard/Dashboard.vue'),
-          meta: {
-            icon: 'el-icon-dashboard',
-            title: '仪表盘'
-          }
-        },
-        {
-          path: 'register',
-          name: 'register',
-          hidden: false,
-          component: () => import('@/views/Register/Register.vue'),
-          meta: {
-            icon: 'el-icon-qianyuejilu',
-            title: '资产登记'
-          }
-        },
+      }, 
         {
           path: 'usereturn',
           name: 'usereturn',
           hidden: false,
           component: () => import('@/views/Summary/Summary.vue'),
           meta: { icon: 'el-icon-yuan', title: '分类汇总' }
-        }]
-      },
-      {
+        },
+        {
         path: 'password',
         name: 'password',
         hidden: true,
         component: () => import('@/views/Password/Password.vue'),
         meta: { icon: 'el-icon-qianyuejilu', title: '修改密码' }
-      },
-      {
-        path: 'info',
-        name: 'info',
-        hidden: true,
-        component: () => import('@/views/Info/Info.vue'),
-        meta: { icon: 'el-icon-qianyuejilu', title: '修改资料' }
-      },
+       },
+        {
+          path: 'info',
+          name: 'info',
+          hidden: true,
+          component: () => import('@/views/Info/Info.vue'),
+          meta: { icon: 'el-icon-qianyuejilu', title: '修改资料' }
+        },
       {
         path: 'borrow',
         name: 'borrow',
         hidden: false,
         component: () => import('@/views/Borrow/Borrow.vue'),
         meta: { icon: 'el-icon-jiehuan', title: '借用归还' }
-      }
-          component: () => import('@/views/Usereturn/Usereturn.vue'),
-          meta: {
-            icon: 'el-icon-document',
-            title: '领用/退库'
-          }
-        },
+      },
         {
           path: 'repair',
           name: 'repair',
@@ -155,26 +130,6 @@ var router = new Router({
               }
             }
           ]
-        },
-        {
-          path: 'password',
-          name: 'password',
-          hidden: true,
-          component: () => import('@/views/Password/Password.vue'),
-          meta: {
-            icon: 'el-icon-qianyuejilu',
-            title: '修改密码'
-          }
-        },
-        {
-          path: 'info',
-          name: 'info',
-          hidden: true,
-          component: () => import('@/views/Info/Info.vue'),
-          meta: {
-            icon: 'el-icon-qianyuejilu',
-            title: '修改资料'
-          }
         }
       ]
     }
