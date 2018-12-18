@@ -1,4 +1,5 @@
 <template>
+<!-- 选择资产组件 -->
   <el-row :gutter="20" height="100%">
     <el-col :span="6" class="box" height="100%">
       <el-tree :data="$store.state.assets_type" :props="defaultProps" @node-click="selectAsset"></el-tree>
@@ -361,7 +362,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .box {
   border: 1px solid #eee;
   height: 300px;
