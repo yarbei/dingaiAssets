@@ -20,7 +20,7 @@
     </el-row>
     <!-- 退库表格 -->
     <el-table :data="returnData" border style="width: 100%" align="center">
-      <el-table-column type="selection" width="30"></el-table-column>
+      <el-table-column fixed="left" type="selection" width="30"></el-table-column>
       <el-table-column prop="collar_number" label="退库单号" width="150" align="center"></el-table-column>
       <el-table-column prop="collar_time" label="退库时间" width="150">
         <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
@@ -28,7 +28,7 @@
       <el-table-column prop="department_name" label="仓库名称" width="150"></el-table-column>
       <el-table-column prop="company_name" label="退库使用公司" width="300"></el-table-column>
       <el-table-column prop="personnel_name" label="处理人" width="150"></el-table-column>
-      <el-table-column label="操作" width="120">
+      <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">
           <el-button @click="seeReceive(scope.row)" type="text" size="small">查看</el-button>
         </template>

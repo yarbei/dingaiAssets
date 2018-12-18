@@ -20,7 +20,7 @@
     </el-row>
     <!-- 领用资产表格 -->
     <el-table :data="receiveData" border style="width: 100%" align="center">
-      <el-table-column type="selection" width="30"></el-table-column>
+      <el-table-column fixed="left" type="selection" width="30"></el-table-column>
       <el-table-column prop="collar_number" label="领用单号" width="150" align="center"></el-table-column>
       <el-table-column prop="collar_time" label="领用时间" width="150">
         <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
@@ -31,7 +31,7 @@
       <el-table-column prop="collar_time" label="预计退库时间" width="150">
         <template slot-scope="scope"></template>
       </el-table-column>
-      <el-table-column label="操作" width="120">
+      <el-table-column  fixed="right" label="操作" width="120">
         <template slot-scope="scope">
           <el-button @click="seeReceive(scope.row)" type="text" size="small">查看</el-button>
         </template>
