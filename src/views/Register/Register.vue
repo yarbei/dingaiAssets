@@ -49,7 +49,7 @@
         align="center"
         @selection-change="delSelectionChange"
       >
-        <el-table-column type="selection" width="30"></el-table-column>
+        <el-table-column fixed="left" type="selection" width="30"></el-table-column>
         <el-table-column prop="status" label="资产状态" width="100" align="center">
           <template slot-scope="scope">
             <da-assets-state :status="scope.row.status"></da-assets-state>
@@ -85,8 +85,8 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 50]"
-        :page-size="10"
+        :page-sizes="$store.state.pageSizes"
+        :page-size="$store.state.defaultPageSize"
         layout="sizes, prev, pager, next"
         :total="400"
         background
@@ -930,10 +930,14 @@ export default {
     ];
   },
   methods: {
-    // 分页条数变化
-    handleSizeChange() {},
-    // 当前页发生变化
-    handleCurrentChange(currentPage) {},
+    // 分页 条数 变化
+    handleSizeChange(size) {
+      this.pageSize = size;
+    },
+    //当前页发生变化
+    handleCurrentChange(currentPage) {
+      
+    },
     //上传图片
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);

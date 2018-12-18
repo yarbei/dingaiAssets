@@ -1,4 +1,5 @@
 <template>
+<!-- 维保信息 -->
   <div>
     <el-row>
       <el-col :span="14">
@@ -18,88 +19,87 @@
         <el-button icon="el-icon-search" size="small" style="margin-left:10px"></el-button>
       </el-col>
     </el-row>
-    <!-- 领用资产表格 -->
-    <el-table :data="receiveData" border style="width: 100%" align="center">
-      <el-table-column fixed="left" type="selection" width="30"></el-table-column>
-      <el-table-column prop="collar_number" label="领用单号" width="150" align="center"></el-table-column>
-      <el-table-column prop="collar_time" label="领用时间" width="150">
+    <!-- 维保信息表格 -->
+    <el-table :data="returnData" border style="width: 100%">
+      <el-table-column type="selection" width="30" fixed></el-table-column>
+      <el-table-column prop="collar_number" label="变更单号" width="150" align="center"></el-table-column>
+      <el-table-column prop="collar_time" label="变更时间" width="150">
         <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
       </el-table-column>
-      <el-table-column prop="personnel_name" label="领用人" width="150"></el-table-column>
-      <el-table-column prop="department_name" label="领用部门" width="150"></el-table-column>
-      <el-table-column prop="company_name" label="领用使用公司" width="150"></el-table-column>
-      <el-table-column prop="collar_time" label="预计退库时间" width="150">
-        <template slot-scope="scope"></template>
+      <el-table-column prop="department_name" label="资产名称" width="150"></el-table-column>
+      <el-table-column prop="company_name" label="供应商" width="150"></el-table-column>
+      <el-table-column prop="personnel_name" label="联系方式" width="150"></el-table-column>
+      <el-table-column prop="collar_time" label="维保到期时间" width="150">
+        <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
       </el-table-column>
-      <el-table-column  fixed="right" label="操作" width="120">
+      <el-table-column prop="personnel_name" label="资产类型" width="150"></el-table-column>
+      <el-table-column prop="personnel_name" label="联系方式" width="150"></el-table-column>
+      <el-table-column prop="personnel_name" label="使用人" width="150"></el-table-column>
+      <el-table-column prop="personnel_name" label="使用公司" width="150"></el-table-column>
+      <el-table-column prop="personnel_name" label="使用部门" width="150"></el-table-column>
+      <el-table-column prop="personnel_name" label="管理员" width="150"></el-table-column>
+      <el-table-column label="操作" width="120" fixed="right">
         <template slot-scope="scope">
           <el-button @click="seeReceive(scope.row)" type="text" size="small">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- 新增领用资产表单 -->
-    <el-dialog title="领用单" :visible.sync="addReceiveTableVisible" width="80%">
+    <!-- 新增维保变更表单 -->
+    <el-dialog title="变更单" :visible.sync="addReceiveTableVisible" width="80%">
       <el-form
         :model="addReceiveData"
         class="demo-form-inline"
         :size="$store.state.uiSize"
-        label-width="80px"
+        label-width="100px"
       >
         <el-row>
+          <el-col :span="12">
+            <el-form-item label="变更单号">
+              <el-input placeholder="变更单号" v-model="addReceiveData.bar_code" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="处理时间">
+              <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期" style="width:100%"></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="8">
-            <el-form-item label="领用人">
-              <el-input v-model="selectUser.personnel_name">
-                <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true"></el-button>
+            <el-form-item label="资产名称">
+              <el-input v-model="addReceiveData.bar_code">
+                <el-button slot="append" icon="el-icon-user-list" @click="AssetsInnerVisible=true"></el-button>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="领用时间">
-              <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期"></el-date-picker>
+            <el-form-item label="供应商">
+              <el-input placeholder="供应商" v-model="addReceiveData.bar_code" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="预计退库">
-              <el-date-picker v-model="addReceiveData.purchase_time" type="date" placeholder="选择日期"></el-date-picker>
+            <el-form-item label="联系人">
+              <el-input placeholder="联系人" v-model="addReceiveData.bar_code" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="领用公司">
-              <el-input v-model="selectCompany.name" readonly></el-input>
+            <el-form-item label="联系人">
+              <el-input placeholder="联系人" v-model="addReceiveData.bar_code" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="领用部门">
-              <el-input v-model="selectDepartment.name" readonly></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="存放地点">
-              <el-select placeholder="存放地点" v-model="addReceiveData.warehouse_id">
-                <el-option
-                  v-for="v in $store.state.address"
-                  :key="v.id"
-                  :label="v.name"
-                  :value="v.id"
-                ></el-option>
-              </el-select>
+            <el-form-item label="到期时间">
+              <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期" style="width:100%"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="处理人">
-              <el-input placeholder="处理人" v-model="addReceiveData.bar_code" readonly></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="14">
-            <el-form-item label="说明">
+        <el-col :span="24">
+            <el-form-item label="备注">
               <el-input type="textarea" v-model="addReceiveData.remarks" width="80%"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
         <el-row>
           <el-col>
             <el-button :size="$store.state.uiSize" @click="AssetsInnerVisible=true">选择资产</el-button>
@@ -134,14 +134,7 @@
           </el-table>
         </el-row>
       </el-form>
-      <!-- 选择领用人表单 -->
-      <el-dialog width="80%" title="选择用户" :visible.sync="UserInnerVisible" append-to-body>
-        <SelectUser :selectUsers="selectUsers"></SelectUser>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="UserInnerVisible = false">取 消</el-button>
-        </div>
-      </el-dialog>
-      <!-- 选择领用资产表单 -->
+      <!-- 选择退库资产表单 -->
       <el-dialog width="80%" title="选择资产" :visible.sync="AssetsInnerVisible" append-to-body>
         <SelectAssets :selectAssets="selectAssets"></SelectAssets>
         <div slot="footer" class="dialog-footer">
@@ -149,15 +142,15 @@
           <el-button type="primary" @click="selectAssetsDone">确 定</el-button>
         </div>
       </el-dialog>
-      <!-- 新增领用表单底部按钮 -->
+      <!-- 新增退库表单底部按钮 -->
       <div slot="footer" class="dialog-footer">
         <el-button @click="addReceiveTableVisible = false">取 消</el-button>
         <el-button type="primary" @click="addReceiveDone">确 定</el-button>
       </div>
     </el-dialog>
 
-    <!-- 查看领用资产表单 -->
-    <el-dialog title="领用单" :visible.sync="seeReceiveTableVisible" width="80%">
+    <!-- 查看退库资产表单 -->
+    <el-dialog title="退库单" :visible.sync="seeReceiveTableVisible" width="80%" readonly>
       <el-form
         :model="addReceiveData"
         class="demo-form-inline"
@@ -166,37 +159,25 @@
       >
         <el-row>
           <el-col :span="8">
-            <el-form-item label="领用人">
-              <el-input v-model="addReceiveData.personnel_name">
-                <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true"></el-button>
-              </el-input>
+            <el-form-item label="退库处理人">
+              <el-input placeholder="退库处理人" v-model="addReceiveData.bar_code" disabled></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="领用时间">
+          <el-col :span="12">
+            <el-form-item label="退库时间">
               <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期"></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="预计退库">
-              <el-date-picker v-model="addReceiveData.purchase_time" type="date" placeholder="选择日期"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="领用公司">
-              <el-input v-model="addReceiveData.company_name" readonly></el-input>
+          <el-col :span="12">
+            <el-form-item label="退库使用公司">
+              <el-input v-model="selectCompany.name" readonly></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="领用部门">
-              <el-input v-model="addReceiveData.department_name" readonly></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="存放地点">
-              <el-select placeholder="存放地点" v-model="addReceiveData.warehouse_id">
+          <el-col :span="12">
+            <el-form-item label="退库仓库">
+              <el-select placeholder="退库仓库" v-model="addReceiveData.warehouse_id">
                 <el-option
                   v-for="v in $store.state.address"
                   :key="v.id"
@@ -208,13 +189,8 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="处理人">
-              <el-input placeholder="处理人" v-model="addReceiveData.bar_code" readonly></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="14">
-            <el-form-item label="说明">
+          <el-col :span="24">
+            <el-form-item label="退库说明">
               <el-input type="textarea" v-model="addReceiveData.remarks" width="80%"></el-input>
             </el-form-item>
           </el-col>
@@ -253,14 +229,7 @@
           </el-table>
         </el-row>
       </el-form>
-      <!-- 选择领用人表单 -->
-      <el-dialog width="80%" title="选择用户" :visible.sync="UserInnerVisible" append-to-body>
-        <SelectUser :selectUsers="selectUsers"></SelectUser>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="UserInnerVisible = false">取 消</el-button>
-        </div>
-      </el-dialog>
-      <!-- 选择领用资产表单 -->
+      <!-- 选择退库资产表单 -->
       <el-dialog width="80%" title="选择资产" :visible.sync="AssetsInnerVisible" append-to-body>
         <SelectAssets :selectAssets="selectAssets"></SelectAssets>
         <div slot="footer" class="dialog-footer">
@@ -268,7 +237,7 @@
           <el-button type="primary" @click="selectAssetsDone">确 定</el-button>
         </div>
       </el-dialog>
-      <!-- 新增领用表单底部按钮 -->
+      <!-- 新增退库表单底部按钮 -->
       <div slot="footer" class="dialog-footer">
         <el-button @click="addReceiveTableVisible = false">取 消</el-button>
         <el-button type="primary" @click="addReceiveDone">确 定</el-button>
@@ -291,18 +260,16 @@
 import SelectUser from "@/components/SelectUser.vue";
 import SelectAssets from "@/components/SelectAssets.vue";
 export default {
-  name: "Receive",
+  name: "Maintenance",
   data() {
     return {
       date: "",
-      receiveData: [], //领用资产数据
+      returnData: [], //退库资产数据
       pageSize: 10, //分页默认size
       addReceiveTableVisible: false, //打开新增领用资产表单
       addReceiveData: {}, //新增领用资产数据
       seeReceiveTableVisible: false, //查看资产表单
-      UserInnerVisible: false, //打开选择领用人表单
       AssetsInnerVisible: false, //打开选择领用资产表单
-      selectUser: {}, //选择员工数据
       selectDepartment: {}, //选择部门数据
       selectCompany: {}, //选择公司数据
       selectingAssetData: [], //选择资产时数据
@@ -345,14 +312,6 @@ export default {
       this.seeReceiveTableVisible = true;
       this.addReceiveData = JSON.parse(JSON.stringify(val));
     },
-    //选择公司部门员工
-    selectUsers(users, departments, company) {
-      this.selectUser = users;
-      this.selectCompany = company;
-      this.selectDepartment = departments;
-      console.log(this.selectDepartment, this.selectCompany);
-      this.UserInnerVisible = false;
-    },
     //选择领用资产
     selectAssets(assets) {
       this.selectingAssetData = assets;
@@ -376,7 +335,7 @@ export default {
     }
   },
   mounted() {
-    this.receiveData = [
+    this.returnData = [
       {
         id: 1,
         collar_number: "LY20180618003",
@@ -416,12 +375,11 @@ export default {
     ];
   },
   components: {
-    SelectUser,
     SelectAssets
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .el-table{
   margin-top:20px;
 }

@@ -6,6 +6,9 @@ Vue.use(Vuex, FileSaver, XLSX)
 
 export default new Vuex.Store({
   state: {
+    token: localStorage.getItem('token') || '',
+    pageSizes: [20, 60, 80, 100],
+    defaultPageSize: 20,
     uiSize: 'small',
     type: [{
       id: 1,
@@ -65,6 +68,10 @@ export default new Vuex.Store({
     }]
   },
   mutations: {
+    save_token (state, token) {
+      localStorage.setItem('token', token)
+      state.token = token
+    },
     exportExcel () {
       /* generate workbook object from table */
       var wb = XLSX.utils.table_to_book(document.querySelector('.el-table'))
