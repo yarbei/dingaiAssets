@@ -39,6 +39,13 @@ export default new Router({
         meta: { icon: 'el-icon-document', title: '领用/退库' }
       },
       {
+        path: 'modify',
+        name: 'modify',
+        hidden: false,
+        component: () => import('@/views/Modify/Modify.vue'),
+        meta: { icon: 'el-icon-xiugai', title: '信息变更' }
+      },
+      {
         path: 'census',
         name: 'census',
         hidden: false,
