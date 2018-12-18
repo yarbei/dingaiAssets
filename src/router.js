@@ -20,9 +20,42 @@ var router = new Router({
       meta: {
         title: '主页'
       },
+<<<<<<< HEAD
+      {
+        path: 'register',
+        name: 'register',
+        hidden: false,
+        component: () => import('@/views/Register/Register.vue'),
+        meta: { icon: 'el-icon-qianyuejilu', title: '资产登记' }
+      },
+      {
+        path: 'usereturn',
+        name: 'usereturn',
+        hidden: false,
+        component: () => import('@/views/Usereturn/Usereturn.vue'),
+        meta: { icon: 'el-icon-document', title: '领用/退库' }
+      },
+      {
+        path: 'modify',
+        name: 'modify',
+        hidden: false,
+        component: () => import('@/views/Modify/Modify.vue'),
+        meta: { icon: 'el-icon-xiugai', title: '信息变更' }
+      },
+      {
+        path: 'census',
+        name: 'census',
+        hidden: false,
+        component: () => import('@/views/Census/Census.vue'),
+        meta: { icon: 'el-icon-qianyuejilu', title: '资产统计' },
+        children: [{
+          path: 'bill',
+          name: 'bill',
+=======
       children: [{
           path: '',
           name: 'dashboard',
+>>>>>>> 700824f1df99f45bb23a64b9e6a98e04bd63fe1d
           hidden: false,
           component: () => import('@/views/Dashboard/Dashboard.vue'),
           meta: {
