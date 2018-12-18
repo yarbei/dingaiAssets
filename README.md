@@ -1,4 +1,4 @@
-# cyn-assets
+# dingaiAssets
 
 ## Project setup
 ```

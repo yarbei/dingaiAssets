@@ -1,11 +1,12 @@
 <template>
+<!-- 选择用户组件 -->
   <el-row :gutter="20" height='100%'>
     <el-col :span="6" class="box" height='100%'>
       <el-tree :data="$store.state.company" :props="defaultProps" @node-click="selectDepartments"></el-tree>
     </el-col>
     <el-col :span="18">
       <el-table :data="userData" border align="center" style="width: 100%;margin:0">
-        <el-table-column fixed="left" label width="120">
+        <el-table-column label width="120">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="select(scope.row)">选择</el-button>
           </template>
