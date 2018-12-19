@@ -146,12 +146,12 @@ var router = new Router({
   }]
 })
 
-router.beforeEach(function(to, from, next) {
-  if (store.state.token || to.path == '/') {
-    next()
-  } else {
-    next('/')
-  }
-})
+// router.beforeEach(function(to, from, next) {
+//   if (store.state.token || to.path == '/') {
+//     next()
+//   } else {
+//     next('/')
+//   }
+// })
 
 export default router
