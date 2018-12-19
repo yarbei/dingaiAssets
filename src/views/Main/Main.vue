@@ -170,6 +170,7 @@ export default {
     }
   }
   router-view{
+    background: #eee;
     width: 100%;
     height: 100%;
   }

@@ -4,7 +4,7 @@
     <el-card>
       <el-row>
         <el-col :span="14">
-          <el-button type="primary" icon="el-icon-plus" size="small" @click="addReceive">新增</el-button>
+          <el-button type="primary" icon="el-icon-plus" size="small" @click="addRepair">新增</el-button>
           <el-button icon="el-icon-printer" size="small">打印</el-button>
           <el-button icon="el-icon-printer" size="small" @click="exportExcel">导出</el-button>
         </el-col>
@@ -21,86 +21,63 @@
         </el-col>
       </el-row>
       <!-- 领用资产表格 -->
-      <el-table :data="receiveData" border style="width: 100%" align="center">
-        <el-table-column type="selection" width="30"></el-table-column>
-        <el-table-column prop="collar_number" label="维修单号" align="center"></el-table-column>
-        <el-table-column prop="collar_time" label="报修时间">
-          <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
+      <el-table :data="repairData" border style="width: 100%" align="center">
+        <el-table-column prop="status" label="状态" width="100" align="center">
+          <template slot-scope="scope">
+            <da-assets-state :status="scope.row.status"></da-assets-state>
+          </template>
         </el-table-column>
-        <el-table-column prop="personnel_name" label="报修人"></el-table-column>
-        <el-table-column prop="department_name" label="维修人"></el-table-column>
-        <el-table-column prop="company_name" label="维修花费"></el-table-column>
+        <el-table-column prop="repair_number" label="维修单号" align="center"></el-table-column>
+        <el-table-column prop="report_time" label="报修时间">
+          <template slot-scope="scope">{{scope.row.report_time | date}}</template>
+        </el-table-column>
+        <el-table-column prop="report_repair_id" label="报修人"></el-table-column>
+        <el-table-column prop="repair_handle_id" label="维修人"></el-table-column>
+        <el-table-column prop="cost" label="维修花费"></el-table-column>
         <el-table-column label="操作" width="120">
           <template slot-scope="scope">
-            <el-button @click="seeReceive(scope.row)" type="text" size="small">查看</el-button>
-            <el-button @click="seeReceive(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="seeRepair(scope.row)" type="text" size="small">查看</el-button>
+            <el-button @click="editRepair(scope.row)" type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 新增维修单 -->
-      <el-dialog title="新增维修单" :visible.sync="addReceiveTableVisible" width="80%">
+      <el-dialog title="新增维修单" :visible.sync="addRepairTableVisible" width="80%">
+        <el-steps :active="active" finish-status="success">
+          <el-step title="报修"></el-step>
+          <el-step title="已接单"></el-step>
+          <el-step title="维修中"></el-step>
+          <el-step title="完成"></el-step>
+        </el-steps>
         <el-form
-          :model="addReceiveData"
+          :model="addRepairData"
           class="demo-form-inline"
           :size="$store.state.uiSize"
           label-width="80px"
         >
           <el-row>
             <el-col :span="8">
-              <el-form-item label="领用人">
+              <el-form-item label="维修单号">
+                <el-input placeholder v-model="addRepairData.repair_number" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="报修时间">
+                <el-date-picker v-model="addRepairData.report_time" type="date" placeholder="选择日期"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="报修人">
                 <el-input v-model="selectUser.personnel_name">
                   <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true"></el-button>
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="领用时间">
-                <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期"></el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="预计退库">
-                <el-date-picker
-                  v-model="addReceiveData.purchase_time"
-                  type="date"
-                  placeholder="选择日期"
-                ></el-date-picker>
-              </el-form-item>
-            </el-col>
           </el-row>
           <el-row>
-            <el-col :span="8">
-              <el-form-item label="领用公司">
-                <el-input v-model="selectCompany.name" readonly></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="领用部门">
-                <el-input v-model="selectDepartment.name" readonly></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="存放地点">
-                <el-select placeholder="存放地点" v-model="addReceiveData.warehouse_id">
-                  <el-option
-                    v-for="v in $store.state.address"
-                    :key="v.id"
-                    :label="v.name"
-                    :value="v.id"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="处理人">
-                <el-input placeholder="处理人" v-model="addReceiveData.bar_code" readonly></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="14">
+            <el-col :span="24">
               <el-form-item label="说明">
-                <el-input type="textarea" v-model="addReceiveData.remarks" width="80%"></el-input>
+                <el-input type="textarea" v-model="addRepairData.repair_content" width="80%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -118,34 +95,26 @@
               align="center"
               @selection-change="delSelectionChange"
             >
-              <el-table-column type="selection" width="30"></el-table-column>
-              <el-table-column prop="bar_code" label="资产条码" width="150"></el-table-column>
-              <el-table-column prop="name" label="资产名称" width="120"></el-table-column>
-              <el-table-column prop="type_id" label="资产类型" width="100"></el-table-column>
-              <el-table-column prop="specification" label="规格型号" width="100"></el-table-column>
-              <el-table-column prop="money" label="金额" width="100">
-                <template slot-scope="scope">{{scope.row.money | currency}}</template>
-              </el-table-column>
-              <el-table-column prop="purchase_time" label="购买时间" width="150">
-                <template slot-scope="scope">{{scope.row.purchase_time | date}}</template>
-              </el-table-column>
-              <el-table-column prop="company" label="使用公司" width="100"></el-table-column>
-              <el-table-column prop="department" label="使用部门" width="100"></el-table-column>
-              <el-table-column prop="user_id" label="使用人" width="100"></el-table-column>
-              <el-table-column prop="manager_id" label="管理员" width="100"></el-table-column>
-              <el-table-column prop="address" label="存放地点" width="100"></el-table-column>
-              <el-table-column prop="source" label="来源" width="100"></el-table-column>
+              <el-table-column type="selection" ></el-table-column>
+              <el-table-column prop="bar_code" label="资产条码"></el-table-column>
+              <el-table-column prop="name" label="资产名称"></el-table-column>
+              <el-table-column prop="type_id" label="资产类型"></el-table-column>
+              <el-table-column prop="company" label="使用公司"></el-table-column>
+              <el-table-column prop="department" label="使用部门"></el-table-column>
+              <el-table-column prop="user_id" label="使用人"></el-table-column>
+              <el-table-column prop="manager_id" label="管理员"></el-table-column>
+              <el-table-column prop="address" label="存放地点"></el-table-column>
             </el-table>
           </el-row>
         </el-form>
-        <!-- 选择领用人表单 -->
+        <!-- 选择报修人表单 -->
         <el-dialog width="80%" title="选择用户" :visible.sync="UserInnerVisible" append-to-body>
           <SelectUser :selectUsers="selectUsers"></SelectUser>
           <div slot="footer" class="dialog-footer">
             <el-button @click="UserInnerVisible = false">取 消</el-button>
           </div>
         </el-dialog>
-        <!-- 选择领用资产表单 -->
+        <!-- 选择报修资产表单 -->
         <el-dialog width="80%" title="选择资产" :visible.sync="AssetsInnerVisible" append-to-body>
           <SelectAssets :selectAssets="selectAssets"></SelectAssets>
           <div slot="footer" class="dialog-footer">
@@ -153,84 +122,78 @@
             <el-button type="primary" @click="selectAssetsDone">确 定</el-button>
           </div>
         </el-dialog>
-        <!-- 新增领用表单底部按钮 -->
+        <!-- 新增报修表单底部按钮 -->
         <div slot="footer" class="dialog-footer">
-          <el-button @click="addReceiveTableVisible = false">取 消</el-button>
-          <el-button type="primary" @click="addReceiveDone">确 定</el-button>
+          <el-button @click="addRepairTableVisible = false">取 消</el-button>
+          <el-button type="primary" @click="addRepairDone">确 定</el-button>
         </div>
       </el-dialog>
 
-      <!-- 查看领用资产表单 -->
-      <el-dialog title="领用单" :visible.sync="seeReceiveTableVisible" width="80%">
+      <!-- 查看报修资产表单 -->
+      <el-dialog title="查看维修单" :visible.sync="seeRepairTableVisible" width="80%">
+        <el-steps :active="active" finish-status="success">
+          <el-step title="报修"></el-step>
+          <el-step title="已接单"></el-step>
+          <el-step title="维修中"></el-step>
+          <el-step title="完成"></el-step>
+        </el-steps>
         <el-form
-          :model="addReceiveData"
+          :model="addRepairData"
           class="demo-form-inline"
           :size="$store.state.uiSize"
           label-width="80px"
         >
           <el-row>
             <el-col :span="8">
-              <el-form-item label="领用人">
-                <el-input v-model="addReceiveData.personnel_name">
-                  <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true"></el-button>
-                </el-input>
+              <el-form-item label="维修单号">
+                <el-input placeholder v-model="addRepairData.repair_number" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="领用时间">
-                <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期"></el-date-picker>
+              <el-form-item label="报修时间">
+                <el-date-picker v-model="addRepairData.report_time" type="date" placeholder="选择日期" disabled></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="预计退库">
-                <el-date-picker
-                  v-model="addReceiveData.purchase_time"
-                  type="date"
-                  placeholder="选择日期"
-                ></el-date-picker>
+              <el-form-item label="报修人">
+                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="领用公司">
-                <el-input v-model="addReceiveData.company_name" readonly></el-input>
+              <el-form-item label="维修状态">
+                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="领用部门">
-                <el-input v-model="addReceiveData.department_name" readonly></el-input>
+              <el-form-item label="维修人">
+                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="存放地点">
-                <el-select placeholder="存放地点" v-model="addReceiveData.warehouse_id">
-                  <el-option
-                    v-for="v in $store.state.address"
-                    :key="v.id"
-                    :label="v.name"
-                    :value="v.id"
-                  ></el-option>
-                </el-select>
+              <el-form-item label="报修时间">
+                <el-date-picker v-model="addRepairData.report_time" type="date" disabled></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="8">
-              <el-form-item label="处理人">
-                <el-input placeholder="处理人" v-model="addReceiveData.bar_code" readonly></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="14">
-              <el-form-item label="说明">
-                <el-input type="textarea" v-model="addReceiveData.remarks" width="80%"></el-input>
+            <el-col :span="24">
+              <el-form-item label="报修说明">
+                <el-input type="textarea" v-model="addRepairData.remarks" width="80%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col>
-              <el-button :size="$store.state.uiSize" @click="AssetsInnerVisible=true">选择资产</el-button>
-              <el-button type="danger" :size="$store.state.uiSize" @click="delAssets">删除</el-button>
+            <el-col :span="18">
+              <el-form-item label="维修说明">
+                <el-input type="textarea" v-model="addRepairData.remarks" width="80%"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="维修花费">
+                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
+              </el-form-item>
             </el-col>
           </el-row>
           <el-row>
@@ -241,54 +204,123 @@
               align="center"
               @selection-change="delSelectionChange"
             >
-              <el-table-column fixed="left" type="selection" width="30"></el-table-column>
-              <el-table-column prop="bar_code" label="资产条码" width="150"></el-table-column>
-              <el-table-column prop="name" label="资产名称" width="120"></el-table-column>
-              <el-table-column prop="type_id" label="资产类型" width="100"></el-table-column>
-              <el-table-column prop="specification" label="规格型号" width="100"></el-table-column>
-              <el-table-column prop="money" label="金额" width="100">
-                <template slot-scope="scope">{{scope.row.money | currency}}</template>
-              </el-table-column>
-              <el-table-column prop="purchase_time" label="购买时间" width="150">
-                <template slot-scope="scope">{{scope.row.purchase_time | date}}</template>
-              </el-table-column>
-              <el-table-column prop="company" label="使用公司" width="100"></el-table-column>
-              <el-table-column prop="department" label="使用部门" width="100"></el-table-column>
-              <el-table-column prop="user_id" label="使用人" width="100"></el-table-column>
-              <el-table-column prop="manager_id" label="管理员" width="100"></el-table-column>
-              <el-table-column prop="address" label="存放地点" width="100"></el-table-column>
-              <el-table-column prop="source" label="来源" width="100"></el-table-column>
+              <el-table-column type="selection"></el-table-column>
+              <el-table-column prop="bar_code" label="资产条码"></el-table-column>
+              <el-table-column prop="name" label="资产名称"></el-table-column>
+              <el-table-column prop="type_id" label="资产类型"></el-table-column>
+              <el-table-column prop="company" label="使用公司"></el-table-column>
+              <el-table-column prop="department" label="使用部门"></el-table-column>
+              <el-table-column prop="user_id" label="使用人"></el-table-column>
+              <el-table-column prop="manager_id" label="管理员"></el-table-column>
+              <el-table-column prop="address" label="存放地点"></el-table-column>
             </el-table>
           </el-row>
         </el-form>
-        <!-- 选择领用人表单 -->
-        <el-dialog width="80%" title="选择用户" :visible.sync="UserInnerVisible" append-to-body>
-          <SelectUser :selectUsers="selectUsers"></SelectUser>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="UserInnerVisible = false">取 消</el-button>
-          </div>
-        </el-dialog>
-        <!-- 选择领用资产表单 -->
-        <el-dialog width="80%" title="选择资产" :visible.sync="AssetsInnerVisible" append-to-body>
-          <SelectAssets :selectAssets="selectAssets"></SelectAssets>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="AssetsInnerVisible = false">取 消</el-button>
-            <el-button type="primary" @click="selectAssetsDone">确 定</el-button>
-          </div>
-        </el-dialog>
-        <!-- 新增领用表单底部按钮 -->
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="addReceiveTableVisible = false">取 消</el-button>
-          <el-button type="primary" @click="addReceiveDone">确 定</el-button>
-        </div>
       </el-dialog>
 
+      <!-- 编辑报修资产表单 -->
+      <el-dialog title="编辑维修单" :visible.sync="editRepairTableVisible" width="80%">
+        <el-steps :active="active" finish-status="success">
+          <el-step title="报修"></el-step>
+          <el-step title="已接单"></el-step>
+          <el-step title="维修中"></el-step>
+          <el-step title="完成"></el-step>
+        </el-steps>
+        <el-form
+          :model="editRepairData"
+          class="demo-form-inline"
+          :size="$store.state.uiSize"
+          label-width="80px"
+        >
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="维修单号">
+                <el-input placeholder v-model="addRepairData.repair_number" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="报修时间">
+                <el-date-picker v-model="addRepairData.report_time" type="date" placeholder="选择日期" disabled></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="报修人">
+                <el-input placeholder v-model="addRepairData.bar_code" disabled></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="维修状态">
+                <el-select placeholder="资产类型" v-model="editRepairData.type_id">
+                    <el-option
+                      v-for="v in $store.state.type"
+                      :key="v.id"
+                      :label="v.name"
+                      :value="v.id"
+                    ></el-option>
+                  </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="维修人">
+                <el-input v-model="selectUser.personnel_name">
+                  <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true" disabled></el-button>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="报修时间">
+                <el-date-picker v-model="addRepairData.report_time" type="date" placeholder="选择日期"></el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="报修说明">
+                <el-input type="textarea" v-model="addRepairData.remarks" width="80%"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="18">
+              <el-form-item label="维修说明">
+                <el-input type="textarea" v-model="addRepairData.remarks" width="80%"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="维修花费">
+                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-table
+              :data="selectedAssetData"
+              border
+              style="width: 100%"
+              align="center"
+              @selection-change="delSelectionChange"
+            >
+              <el-table-column type="selection"></el-table-column>
+              <el-table-column prop="bar_code" label="资产条码"></el-table-column>
+              <el-table-column prop="name" label="资产名称"></el-table-column>
+              <el-table-column prop="type_id" label="资产类型"></el-table-column>
+              <el-table-column prop="company" label="使用公司"></el-table-column>
+              <el-table-column prop="department" label="使用部门"></el-table-column>
+              <el-table-column prop="user_id" label="使用人"></el-table-column>
+              <el-table-column prop="manager_id" label="管理员"></el-table-column>
+              <el-table-column prop="address" label="存放地点"></el-table-column>
+            </el-table>
+          </el-row>
+        </el-form>
+      </el-dialog>
       <!-- 分页 -->
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 50]"
-        :page-size="10"
+        :page-sizes="$store.state.pageSizes"
+        :page-size="$store.state.defaultPageSize"
         layout="sizes, prev, pager, next"
         :total="400"
         background
@@ -297,6 +329,7 @@
   </div>
 </template>
 <script>
+import DaAssetsState from "@/components/DaAssetsState.vue"
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import SelectUser from "@/components/SelectUser.vue";
 import SelectAssets from "@/components/SelectAssets.vue";
@@ -304,14 +337,17 @@ export default {
   name: "Repair",
   data() {
     return {
+      active:0,//步骤条默认状态变量
       date: "",
-      receiveData: [], //领用资产数据
+      repairData: [], //维修表格数据
       pageSize: 10, //分页默认size
-      addReceiveTableVisible: false, //打开新增领用资产表单
-      addReceiveData: {}, //新增领用资产数据
-      seeReceiveTableVisible: false, //查看资产表单
-      UserInnerVisible: false, //打开选择领用人表单
-      AssetsInnerVisible: false, //打开选择领用资产表单
+      addRepairTableVisible: false, //打开新增维修资产表单
+      addRepairData: {}, //新增维修资产数据
+      seeRepairTableVisible: false, //查看维修表单
+      editRepairTableVisible: false,//编辑维修单
+      editRepairData:{},//编辑维修表单数据
+      UserInnerVisible: false, //打开选择报修人表单
+      AssetsInnerVisible: false, //打开选择维修资产表单
       selectUser: {}, //选择员工数据
       selectDepartment: {}, //选择部门数据
       selectCompany: {}, //选择公司数据
@@ -325,35 +361,39 @@ export default {
     handleSizeChange() {},
     // 当前页发生变化
     handleCurrentChange(currentPage) {},
-    // 打开新增资产表单
-    addReceive() {
+    // 打开新增维修表单
+    addRepair() {
       this.selectUser = {};
-      this.addReceiveData = {};
+      this.addRepairData = {};
       this.selectedAssetData = [];
-      this.addReceiveTableVisible = true;
+      this.addRepairTableVisible = true;
     },
     // 确定提交新增数据
-    addReceiveDone() {
-      this.addReceiveTableVisible = false;
-      this.addReceiveData.purchase_time =
-        this.addReceiveData.purchase_time || new Date();
-      this.receiveData.push(this.addReceiveData);
-      console.log(this.addReceiveData);
+    addRepairDone() {
+      this.addRepairTableVisible = false;
+      this.addRepairData.report_time =
+        this.addRepairData.report_time || new Date();
+      this.repairData.push(this.addRepairData);
+      console.log(this.addRepairData);
       this.$message({
         message: "提交成功",
         type: "success"
       });
-      this.addReceiveData = {};
+      this.addRepairData = {};
     },
     //导出表格
     exportExcel() {
       this.$store.commit("exportExcel");
     },
-    //查看资产表单
-    seeReceive(val) {
-      console.log(val)
-      this.seeReceiveTableVisible = true;
-      this.addReceiveData = JSON.parse(JSON.stringify(val));
+    //查看维修表单
+    seeRepair(val) {
+      this.seeRepairTableVisible = true;
+      this.addRepairData = JSON.parse(JSON.stringify(val));
+    },
+    //编辑维修表单
+    editRepair(val){
+      this.editRepairTableVisible =true;
+      this.editRepairData = JSON.parse(JSON.stringify(val));
     },
     //选择公司部门员工
     selectUsers(users, departments, company) {
@@ -363,20 +403,20 @@ export default {
       console.log(this.selectDepartment, this.selectCompany);
       this.UserInnerVisible = false;
     },
-    //选择领用资产
+    //选择维修资产
     selectAssets(assets) {
       this.selectingAssetData = assets;
     },
-    // 确定选择领用资产
+    // 确定选择维修资产
     selectAssetsDone() {
       this.AssetsInnerVisible = false;
       this.selectedAssetData = this.selectingAssetData;
     },
-    //选中领用的资产的数据
+    //选中维修资产的数据
     delSelectionChange(val) {
       this.delAssetsData = val;
     },
-    //删除选中的领用的资产数据
+    //删除选中的维修的资产数据
     delAssets() {
       let a = new Set(this.selectedAssetData);
       let b = new Set(this.delAssetsData);
@@ -385,14 +425,67 @@ export default {
       this.selectedAssetData = arr;
     }
   },
-  mounted() {
-    this.receiveData = [
+ mounted() {
+    this.repairData = [
+      {
+        repair_id: 1,
+        repair_number: "0191063662278",
+        report_time: "Sat Aug 25 2018 23:25:52 GMT+0800 (中国标准时间)",
+        repair_handle_id:1,
+        report_repair_id:1,
+        cost:80,
+        status:4,
+        repair_time:"1529254718034",
+        repair_content:"",
+        repair_remarks:"",
+        asset_id:1
+      },
+      {
+        repair_id: 2,
+        repair_number: "0191063662276",
+        report_time: "1529254718034",
+        repair_handle_id:2,
+        report_repair_id:2,
+        cost:80,
+        status:3,
+        repair_time:"1529254718034",
+        repair_content:"",
+        repair_remarks:"",
+        asset_id:1
+      },
+      {
+        repair_id: 3,
+        repair_number: "0191063662267",
+        report_time: "1529254718034",
+        repair_handle_id:3,
+        report_repair_id:3,
+        cost:80,
+        status:2,
+        repair_time:"1529254718034",
+        repair_content:"",
+        repair_remarks:"",
+        asset_id:1
+      },
+      {
+        repair_id: 4,
+        repair_number: "0191064662278",
+        report_time: "1529254718034",
+        repair_handle_id:4,
+        report_repair_id:4,
+        cost:80,
+        status:1,
+        repair_time:"1529254718034",
+        repair_content:"",
+        repair_remarks:"",
+        asset_id:1
+      },
     ];
   },
   components: {
     SelectUser,
     SelectAssets,
-    Breadcrumb
+    Breadcrumb,
+    DaAssetsState
   }
 };
 </script>
