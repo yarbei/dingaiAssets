@@ -47,8 +47,7 @@
         border
         style="width: 100%"
         align="center"
-        @selection-change="delSelectionChange"
-      >
+        @selection-change="delSelectionChange">
         <el-table-column fixed="left" type="selection" width="30"></el-table-column>
         <el-table-column prop="status" label="资产状态" width="100" align="center">
           <template slot-scope="scope">
