@@ -259,7 +259,44 @@
             </el-row>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="维保信息"></el-tab-pane>
+        <el-tab-pane label="维保信息">
+          <el-form :model="addDialog"
+            class="demo-form-inline"
+            :size="$store.state.uiSize"
+            label-width="80px">
+          <el-row>
+            <el-col :span="11">
+                <el-form-item label="供应商">
+                  <el-input placeholder="供应商" v-model="addDialog.bar_code" readonly></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="联系人">
+                  <el-input placeholder="联系人" v-model="addDialog.bar_code" readonly></el-input>
+                </el-form-item>
+              </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="11">
+                <el-form-item label="联系方式">
+                  <el-input placeholder="联系方式" v-model="addDialog.bar_code" readonly></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="维保到期">
+                  <el-date-picker v-model="addDialog.purchase_time" type="date" placeholder="选择日期"></el-date-picker>
+                </el-form-item>
+              </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+                <el-form-item label="维保说明">
+                  <el-input type="textarea" v-model="addDialog.remarks"></el-input>
+                </el-form-item>
+              </el-col>
+          </el-row>
+          </el-form>
+        </el-tab-pane>
       </el-tabs>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addDialogTableVisible = false">取 消</el-button>
@@ -435,7 +472,44 @@
             </el-row>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="维保信息"></el-tab-pane>
+        <el-tab-pane label="维保信息">
+            <el-form :model="addDialog"
+            class="demo-form-inline"
+            :size="$store.state.uiSize"
+            label-width="80px">
+          <el-row>
+            <el-col :span="11">
+                <el-form-item label="供应商">
+                  <el-input placeholder="供应商" v-model="addDialog.bar_code" readonly></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="联系人">
+                  <el-input placeholder="联系人" v-model="addDialog.bar_code" readonly></el-input>
+                </el-form-item>
+              </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="11">
+                <el-form-item label="联系方式">
+                  <el-input placeholder="联系方式" v-model="addDialog.bar_code" readonly></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="维保到期">
+                  <el-date-picker v-model="addDialog.purchase_time" type="date" placeholder="选择日期"></el-date-picker>
+                </el-form-item>
+              </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+                <el-form-item label="维保说明">
+                  <el-input type="textarea" v-model="addDialog.remarks"></el-input>
+                </el-form-item>
+              </el-col>
+          </el-row>
+          </el-form>
+        </el-tab-pane>
       </el-tabs>
       <div slot="footer" class="dialog-footer">
         <el-button @click="seeDialogTableVisible = false">取 消</el-button>
@@ -610,7 +684,44 @@
             </el-row>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="维保信息"></el-tab-pane>
+        <el-tab-pane label="维保信息">
+            <el-form :model="addDialog"
+            class="demo-form-inline"
+            :size="$store.state.uiSize"
+            label-width="80px">
+          <el-row>
+            <el-col :span="11">
+                <el-form-item label="供应商">
+                  <el-input placeholder="供应商" v-model="addDialog.bar_code" readonly></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="联系人">
+                  <el-input placeholder="联系人" v-model="addDialog.bar_code" readonly></el-input>
+                </el-form-item>
+              </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="11">
+                <el-form-item label="联系方式">
+                  <el-input placeholder="联系方式" v-model="addDialog.bar_code" readonly></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="维保到期">
+                  <el-date-picker v-model="addDialog.purchase_time" type="date" placeholder="选择日期"></el-date-picker>
+                </el-form-item>
+              </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+                <el-form-item label="维保说明">
+                  <el-input type="textarea" v-model="addDialog.remarks"></el-input>
+                </el-form-item>
+              </el-col>
+          </el-row>
+          </el-form>
+        </el-tab-pane>
       </el-tabs>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editDialogTableVisible = false">取 消</el-button>
