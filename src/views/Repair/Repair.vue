@@ -226,7 +226,7 @@
 
       <!-- 编辑报修资产表单 -->
       <el-dialog title="编辑维修单" :visible.sync="editRepairTableVisible" width="80%">
-        <el-steps :active="active" :finish-status="this.editRepairData.status==13?'error':'success'">
+        <el-steps :active="active" :finish-status="finishStatus">
           <el-step title="报修"></el-step>
           <el-step title="已接单"></el-step>
           <el-step title="维修中"></el-step>
@@ -258,12 +258,12 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="维修状态">
-                <el-select placeholder="维修状态" v-model="active" :value="editRepairData.status">{{editRepairData.status}}
+                <el-select placeholder="维修状态" v-model="editRepairData.status" :value="editRepairData.status" @change="stateChange">{{editRepairData.status}}
                     <el-option
                       v-for="v in status"
-                      :key="v.id"
+                      :key="v.status"
                       :label="v.title"
-                      :value="v.id"
+                      :value="v.status"
                     ></el-option>
                   </el-select>
               </el-form-item>
@@ -348,7 +348,8 @@ export default {
   data() {
     return {
       active:0,//步骤条默认状态变量
-      state:'维修成功',
+      stated:'维修成功',
+      finishStatus:'success',//步骤条结束时状态
       date: "",
       repairData: [], //维修表格数据
       pageSize: 10, //分页默认size
@@ -366,38 +367,43 @@ export default {
       selectedAssetData: [], //确定选择资产数据
       delAssetsData: [], //即将要删除的数据
       status:[{
-        id:-1,
         status:9,
         title:'已取消'
       },
       {
-        id:1,
         status:10,
         title:'已报修'
       },
       {
-        id:2,
         status:11,
         title:'已接单'
       },
       {
-        id:3,
         status:12,
         title:'维修中'
       },
       {
-        id:4,
         status:13,
         title:'维修成功'
       },
       {
-        id:5,
         status:14,
         title:'维修失败'
       }]
     };
   },
   methods: {
+    //维修状态发生变化
+    stateChange(val){
+      switch(val){
+        case 9:this.active=0;this.stated='维修成功';this.finishStatus='success';break;
+        case 10:this.active=1;this.stated='维修成功';this.finishStatus='success';break;
+        case 11:this.active=2;this.stated='维修成功';this.finishStatus='success';break;
+        case 12:this.active=3;this.stated='维修成功';this.finishStatus='success';break;
+        case 13:this.active=4;this.stated='维修成功';this.finishStatus='success';break;
+        case 14:this.active=5;this.stated='维修失败';this.finishStatus='error';break;
+      }
+    },
     // 分页条数变化
     handleSizeChange() {},
     // 当前页发生变化
@@ -436,6 +442,15 @@ export default {
     editRepair(val){
       this.editRepairTableVisible =true;
       this.editRepairData = JSON.parse(JSON.stringify(val));
+      console.log(this.editRepairData)
+      switch(this.editRepairData.status){
+        case 9:this.active=0;this.stated='维修成功';this.finishStatus='success';break;
+        case 10:this.active=1;this.stated='维修成功';this.finishStatus='success';break;
+        case 11:this.active=2;this.stated='维修成功';this.finishStatus='success';break;
+        case 12:this.active=3;this.stated='维修成功';this.finishStatus='success';break;
+        case 13:this.active=4;this.stated='维修成功';this.finishStatus='success';break;
+        case 14:this.active=5;this.stated='维修失败';this.finishStatus='error';break;
+      }
     },
     //选择公司部门员工
     selectUsers(users, departments, company) {
