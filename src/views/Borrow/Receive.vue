@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="14">
         <el-button type="primary" icon="el-icon-plus" size="small" @click="addReceive">新增</el-button>
-        <el-button type="primary" icon="el-icon-xiugai" size="small" @click="addReceive">归还</el-button>
+        <el-button type="primary" icon="el-icon-xiugai" size="small" @click="returnDialogVisible">归还</el-button>
         <el-button icon="el-icon-printer" size="small">打印</el-button>
         <el-button icon="el-icon-printer" size="small" @click="exportExcel">导出</el-button>
       </el-col>
@@ -14,13 +14,12 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          size="small"
-        ></el-date-picker>
+          size="small"></el-date-picker>
         <el-button icon="el-icon-search" size="small" style="margin-left:10px"></el-button>
       </el-col>
     </el-row>
     <!-- 领用资产表格 -->
-    <el-table :data="receiveData" border style="width: 100%" >
+    <el-table :data="receiveData" border style="width: 100%" @selection-change="returnSelectionChange">
       <el-table-column fixed type="selection" width="30"></el-table-column>
       <el-table-column prop="status" label="状态" width="100" align="center">
         <template slot-scope="scope">
@@ -46,7 +45,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 新增领用资产表单 -->
+    <!-- 新增借用资产表单 -->
     <el-dialog title="借用单" :visible.sync="addReceiveTableVisible" width="80%">
       <el-form
         :model="addReceiveData"
@@ -153,82 +152,66 @@
     </el-dialog>
 
     <!-- 查看领用资产表单 -->
-    <el-dialog title="领用单" :visible.sync="seeReceiveTableVisible" width="80%">
+    <el-dialog title="借用单" :visible.sync="seeReceiveTableVisible" width="80%">
       <el-form
         :model="addReceiveData"
         class="demo-form-inline"
         :size="$store.state.uiSize"
-        label-width="80px"
-      >
+        label-width="80px">
         <el-row>
           <el-col :span="8">
-            <el-form-item label="领用人">
-              <el-input v-model="addReceiveData.personnel_name">
-                <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true"></el-button>
-              </el-input>
+            <el-form-item label="借用人">
+              <el-input readonly v-model="addReceiveData.personnel_name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="领用时间">
-              <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期"></el-date-picker>
+            <el-form-item label="借出时间">
+              <el-date-picker readonly v-model="addReceiveData.collar_time" type="date" placeholder="选择借出日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="预计退库">
-              <el-date-picker v-model="addReceiveData.purchase_time" type="date" placeholder="选择日期"></el-date-picker>
+            <el-form-item label="预计归还">
+              <el-date-picker readonly v-model="addReceiveData.purchase_time" type="date" placeholder="选择归还日期"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="领用公司">
-              <el-input v-model="addReceiveData.company_name" readonly></el-input>
+            <el-form-item label="借出处理" label-width="80px">
+              <el-input disabled v-model="addReceiveData.personnel_name" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="领用部门">
-              <el-input v-model="addReceiveData.department_name" readonly></el-input>
+            <el-form-item label="归还时间">
+              <el-date-picker readonly v-model="addReceiveData.purchase_time" type="date" placeholder="选择归还日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="存放地点">
-              <el-select placeholder="存放地点" v-model="addReceiveData.warehouse_id">
-                <el-option
-                  v-for="v in $store.state.address"
-                  :key="v.id"
-                  :label="v.name"
-                  :value="v.id"
-                ></el-option>
-              </el-select>
+            <el-form-item label="归还处理">
+              <el-input placeholder="处理人" disabled v-model="addReceiveData.warehouse_id"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="处理人">
-              <el-input placeholder="处理人" v-model="addReceiveData.bar_code" readonly></el-input>
-            </el-form-item>
-          </el-col>
           <el-col :span="14">
             <el-form-item label="说明">
-              <el-input type="textarea" v-model="addReceiveData.remarks" width="80%"></el-input>
+              <el-input type="textarea" readonly v-model="addReceiveData.remarks" width="80%"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col>
             <el-button :size="$store.state.uiSize" @click="AssetsInnerVisible=true">选择资产</el-button>
             <el-button type="danger" :size="$store.state.uiSize" @click="delAssets">删除</el-button>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
           <el-table
             :data="selectedAssetData"
             border
             style="width: 100%"
             align="center"
-            @selection-change="delSelectionChange"
-          >
+            @selection-change="delSelectionChange">
             <el-table-column type="selection" width="30"></el-table-column>
             <el-table-column prop="bar_code" label="资产条码" width="150"></el-table-column>
             <el-table-column prop="name" label="资产名称" width="120"></el-table-column>
@@ -295,6 +278,7 @@ export default {
       receiveData: [], //领用资产数据
       pageSize: 10, //分页默认size
       addReceiveTableVisible: false, //打开新增领用资产表单
+      delDialogsTableVisible: false, //打开退还领用资产表单
       addReceiveData: {}, //新增领用资产数据
       seeReceiveTableVisible: false, //查看资产表单
       UserInnerVisible: false, //打开选择领用人表单
@@ -304,7 +288,8 @@ export default {
       selectCompany: {}, //选择公司数据
       selectingAssetData: [], //选择资产时数据
       selectedAssetData: [], //确定选择资产数据
-      delAssetsData: [] //即将要删除的数据
+      delAssetsData: [], //即将要删除的数据
+      returnData: [] //将要归还的数据
     };
   },
   methods: {
@@ -317,13 +302,12 @@ export default {
       this.selectUser = {};
       this.addReceiveData = {};
       this.selectedAssetData = [];
-      this.addReceiveTableVisible = true;
+      this.addReceiveTableVisible = true;  
     },
     // 确定提交新增数据
     addReceiveDone() {
       this.addReceiveTableVisible = false;
-      this.addReceiveData.purchase_time =
-        this.addReceiveData.purchase_time || new Date();
+      this.addReceiveData.purchase_time = this.addReceiveData.purchase_time || new Date();
       this.receiveData.push(this.addReceiveData);
       console.log(this.addReceiveData);
       this.$message({
@@ -332,13 +316,62 @@ export default {
       });
       this.addReceiveData = {};
     },
+
+    // 归还资产按钮操作
+    //当多选框状态发生改变时,val是选a中的数据
+
+
+    returnSelectionChange(val) {
+      this.returnData = JSON.parse(JSON.stringify(val));
+      this.returnData = val
+      // console.log(this.returnData)     // this.returnData 这个是一个数组，判断长度即可知道他 有没有选中内容
+    },
+    //多选之后归还
+    returnDialogVisible () {
+      if(this.returnData.length==0 ){
+        console.log(this.returnData)
+        this.$message({
+          message: "请选中要归还资产的数据条目！",
+          showClose: true,
+          type: "info"
+        });
+      }
+      if(this.returnData.length!=0){
+        this.$confirm("你确定要归还该资产, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消", 
+        type: "warning"
+        }).then(() => {
+          this.returnData.forEach(val => {
+          this.receiveData.forEach(v => {
+            if (val.id == v.id) {
+              this.receiveData.splice(this.receiveData.indexOf(v), 1)
+            }
+          })
+        })
+          this.$message({
+            type: "success",
+            showClose: true,
+            message: "归还成功!"
+          });
+        }).catch(() => {
+          this.$message({
+            type: "info",
+            showClose: true,
+            message: "已取消归还"
+          });
+        })
+      }
+    },
+
+    
     //导出表格
     exportExcel() {
       this.$store.commit("exportExcel");
     },
     //查看资产表单
     seeReceive(val) {
-      console.log(val)
+      // console.log(val)
       this.seeReceiveTableVisible = true;
       this.addReceiveData = JSON.parse(JSON.stringify(val));
     },

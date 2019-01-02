@@ -44,15 +44,24 @@ export default new Vuex.Store({
     }],
     staff: [{
       id: 1,
-      name: 'tony'
+      name: 'tony-1'
+    },{
+      id: 2,
+      name: 'tony-2'
     }],
     admin: [{
       id: 1,
-      name: 'sandy'
+      name: 'sandy-1'
+    },{
+      id: 2,
+      name: 'sandy-2'
     }],
     address: [{
       id: 1,
-      name: '办公室'
+      name: '北区办公室'
+    },{
+      id: 2,
+      name: '南区办公室'
     }],
     source: [{
       id: 1,

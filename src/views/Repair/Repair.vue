@@ -431,7 +431,7 @@ export default {
     },
     //导出表格
     exportExcel() {
-      this.$store.commit("exportExcel");
+      this.$store.commit("exportExcel")
     },
     //查看维修表单
     seeRepair(val) {
@@ -549,7 +549,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scope>
 .el-table {
   margin-top: 20px;
 }

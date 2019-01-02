@@ -2,7 +2,7 @@
     <div>
       <Breadcrumb></Breadcrumb>
       <el-card>
-        <el-tabs v-model="activeName">
+        <el-tabs >
           <el-tab-pane label="借用" >
             <Receive></Receive>
           </el-tab-pane>
