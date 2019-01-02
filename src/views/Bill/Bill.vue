@@ -61,7 +61,7 @@
 	    	   <el-table-column prop="duration_use" label="使用期限" width="100"></el-table-column>
 	    	   <el-table-column prop="source" label="来源" width="100"></el-table-column>
 	    	   <el-table-column  label="操作" fixed="right"  >
-	    	   	<template slot-scope="scope"">
+	    	   	<template slot-scope="scope">
 	    	   		<el-button  type="text" size="small"  @click="seeDialog(scope.row)">查看</el-button>
 	    	   	</template>
 	    	   </el-table-column>
