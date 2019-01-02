@@ -67,9 +67,9 @@
             <el-menu-item index="/main/password">
               <i class="el-icon-password"></i>修改密码
             </el-menu-item>
-            <el-menu-item index="/main/info">
+            <!-- <el-menu-item index="/main/info">
               <i class="el-icon-edit-outline"></i> 修改资料
-            </el-menu-item>
+            </el-menu-item> -->
             <el-menu-item index="2-3">
               <i class="el-icon-tuichudenglu"></i>退出登录
             </el-menu-item>

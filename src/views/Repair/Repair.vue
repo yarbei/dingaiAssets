@@ -322,7 +322,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="editRepairTableVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editRepair">确 定</el-button>
+          <el-button type="primary" @click="editRepairDone">确 定</el-button>
         </div>
       </el-dialog>
       <!-- 分页 -->
@@ -451,6 +451,9 @@ export default {
         case 13:this.active=4;this.stated='维修成功';this.finishStatus='success';break;
         case 14:this.active=5;this.stated='维修失败';this.finishStatus='error';break;
       }
+    },
+    editRepairDone(){
+      this.editRepairTableVisible = false;
     },
     //选择公司部门员工
     selectUsers(users, departments, company) {

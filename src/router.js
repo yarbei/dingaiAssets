@@ -102,6 +102,16 @@ var router = new Router({
         title: '维修管理'
       }
     }, {
+      path: 'scrap',
+      name: 'scrap',
+      hidden: false,
+      component: () =>
+        import ('@/views/Scrap/Scrap.vue'),
+      meta: {
+        icon: 'el-icon-weixiu',
+        title: '报废管理'
+      }
+    }, {
       path: 'census',
       name: 'census',
       hidden: false,

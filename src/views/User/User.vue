@@ -9,26 +9,7 @@
               <el-button type="primary" icon="el-icon-plus" size="small" @click="addUsers">新增</el-button>
               <el-button type="danger" icon="el-icon-delete" size="small" @click="delUsers">删除</el-button>
 			  <el-button type="primary" icon="el-icon-download" size="small" @click="exportExcel">导出</el-button>
-              
-                <!-- <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>下载导入模板</el-dropdown-item>
-                  <el-dropdown-item divided>批量导入资产</el-dropdown-item>
-                  <el-dropdown-item divided @click="exportExcel">导出资产</el-dropdown-item>
-                </el-dropdown-menu>-->
-             
             </el-col>
-            <!-- <el-col :span="6">
-              <div>
-                <el-input
-                  placeholder="请输入内容"
-                  v-model="search"
-                  class="input-with-select"
-                  size="small"
-                >
-                  <el-button slot="append" icon="el-icon-search"></el-button>
-                </el-input>
-              </div>
-            </el-col>-->
           </el-row>
         </el-tab-pane>
       </el-tabs>
@@ -214,7 +195,7 @@ export default {
 		id: 1,
 		username:'admin1',
 		password:'admin1',
-		name: "张三",
+		names: "张三",
 		phone:123456,
 		email:'949883887@qq.com'
 	  },
@@ -222,7 +203,7 @@ export default {
 		id: 2,
 		username:'admin2',
 		password:'admin2',
-		name: "李四",
+		names: "李四",
 		phone:123456,
 		email:'949883887@qq.com'
 	  },
@@ -230,7 +211,7 @@ export default {
 		id: 3,
 		username:'admin3',
 		password:'admin3',
-		name: "王五",
+		names: "王五",
 		phone:123456,
 		email:'949883887@qq.com'
       },
@@ -238,7 +219,7 @@ export default {
 		id: 4,
 		username:'admin4',
 		password:'admin4',
-		name: "赵六",
+		names: "赵六",
 		phone:123456,
 		email:'949883887@qq.com'
       },
@@ -274,28 +255,26 @@ export default {
     //查看用户表单
     seeUsers(val) {
       this.seeUsersTableVisible = true;
-      this.addUsers = JSON.parse(JSON.stringify(val));
+      this.addUser = JSON.parse(JSON.stringify(val));
     },
     // 编辑用户表单
     editUsers(val) {
       this.editUsersTableVisible = true;
-      this.editUsers = JSON.parse(JSON.stringify(val));
+      this.editUser = JSON.parse(JSON.stringify(val));
     },
     // 提交编辑用户表单
     editUsersDone() {
       this.editUsersTableVisible = false;
-      this.editUsers.purchase_time =
-        this.editUsers.purchase_time || new Date();
       this.userData.forEach((val, key) => {
-        if (val.id == this.editUsers.id) {
-          Object.assign(this.userData[key], this.editUsers);
+        if (val.id == this.editUser.id) {
+          Object.assign(this.userData[key], this.editUser);
         }
       });
       this.$message({
         message: "提交成功",
         type: "success"
       });
-      this.editUsers = {};
+      this.editUser = {};
     },
     //当多选框状态发生改变时,val是选中的数据
     delSelectionChange(val) {
