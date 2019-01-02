@@ -1,9 +1,9 @@
 <template>
-    <h1>员工管理</h1>
+    <h1>组织结构</h1>
 </template>
 <script>
 export default {
-    name:'Staff'
+    name:'Foo'
 }
 </script>
 <style lang="less">

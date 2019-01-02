@@ -1,9 +1,9 @@
 <template>
-    <h1>员工管理</h1>
+    <h1>资产分类</h1>
 </template>
 <script>
 export default {
-    name:'Staff'
+    name:'Assetscla'
 }
 </script>
 <style lang="less">

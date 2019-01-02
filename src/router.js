@@ -142,6 +142,77 @@ var router = new Router({
           title: '分类汇总'
         }
       }]
+    },{
+      path: 'set',
+      name: 'set',
+      hidden: false,
+      component: () =>
+        import ('@/views/Set/Set.vue'),
+      meta: {
+        icon: 'el-icon-setting',
+        title: '设置'
+      },
+      children: [{
+        path: 'foo',
+        name: 'foo',
+        hidden: false,
+        component: () =>
+          import ('@/views/Foo/Foo.vue'),
+        meta: {
+          icon: 'el-icon-yuan',
+          title: '组织结构'
+        }
+      }, {
+        path: 'staff',
+        name: 'staff',
+        hidden: false,
+        component: () =>
+          import ('@/views/Staff/Staff.vue'),
+        meta: {
+          icon: 'el-icon-yuan',
+          title: '员工管理'
+        }
+      }, {
+        path: 'role',
+        name: 'role',
+        hidden: false,
+        component: () =>
+          import ('@/views/Role/Role.vue'),
+        meta: {
+          icon: 'el-icon-yuan',
+          title: '角色管理'
+        }
+      },{
+        path: 'user',
+        name: 'user',
+        hidden: false,
+        component: () =>
+          import ('@/views/User/User.vue'),
+        meta: {
+          icon: 'el-icon-yuan',
+          title: '用户管理'
+        }
+      },{
+        path: 'assetscla',
+        name: 'assetscla',
+        hidden: false,
+        component: () =>
+          import ('@/views/Assetscla/Assetscla.vue'),
+        meta: {
+          icon: 'el-icon-yuan',
+          title: '资产分类'
+        }
+      },{
+        path: 'assetscode',
+        name: 'assetscode',
+        hidden: false,
+        component: () =>
+          import ('@/views/AssetsCode/AssetsCode.vue'),
+        meta: {
+          icon: 'el-icon-yuan',
+          title: '资产编码'
+        }
+      }]
     }]
   }]
 })

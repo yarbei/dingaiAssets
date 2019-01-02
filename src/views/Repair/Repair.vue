@@ -22,7 +22,7 @@
       </el-row>
       <!-- 领用资产表格 -->
       <el-table :data="repairData" border style="width: 100%" align="center">
-        <el-table-column prop="status" label="状态" width="100" align="center">
+        <el-table-column prop="status" label="状态" width="120" align="center">
           <template slot-scope="scope">
             <da-assets-state :status="scope.row.status"></da-assets-state>
           </template>
@@ -33,7 +33,9 @@
         </el-table-column>
         <el-table-column prop="report_repair_id" label="报修人"></el-table-column>
         <el-table-column prop="repair_handle_id" label="维修人"></el-table-column>
-        <el-table-column prop="cost" label="维修花费"></el-table-column>
+        <el-table-column prop="cost" label="维修花费">
+          <template slot-scope="scope">{{scope.row.cost | currency}}</template>
+        </el-table-column>
         <el-table-column label="操作" width="120">
           <template slot-scope="scope">
             <el-button @click="seeRepair(scope.row)" type="text" size="small">查看</el-button>
@@ -156,43 +158,43 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="报修人">
-                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
+                <el-input placeholder v-model="addRepairData.report_repair_id" disabled></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
               <el-form-item label="维修状态">
-                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
+                <el-input placeholder v-model="addRepairData.status" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="维修人">
-                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
+                <el-input placeholder v-model="addRepairData.repair_handle_id" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="报修时间">
-                <el-date-picker v-model="addRepairData.report_time" type="date" disabled></el-date-picker>
+              <el-form-item label="维修时间">
+                <el-date-picker v-model="addRepairData.repair_time" type="date" disabled></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <el-form-item label="报修说明">
-                <el-input type="textarea" v-model="addRepairData.remarks" width="80%"></el-input>
+                <el-input type="textarea" v-model="addRepairData.repair_content" width="80%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="18">
               <el-form-item label="维修说明">
-                <el-input type="textarea" v-model="addRepairData.remarks" width="80%"></el-input>
+                <el-input type="textarea" v-model="addRepairData.repair_remarks" width="80%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="维修花费">
-                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
+                <el-input placeholder v-model="addRepairData.cost" disabled></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -215,16 +217,20 @@
               <el-table-column prop="address" label="存放地点"></el-table-column>
             </el-table>
           </el-row>
+          
         </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="seeRepairTableVisible = false">取 消</el-button>
+        </div>
       </el-dialog>
 
       <!-- 编辑报修资产表单 -->
       <el-dialog title="编辑维修单" :visible.sync="editRepairTableVisible" width="80%">
-        <el-steps :active="active" finish-status="success">
+        <el-steps :active="active" :finish-status="finishStatus">
           <el-step title="报修"></el-step>
           <el-step title="已接单"></el-step>
           <el-step title="维修中"></el-step>
-          <el-step title="完成"></el-step>
+          <el-step :title="this.stated"></el-step>
         </el-steps>
         <el-form
           :model="editRepairData"
@@ -245,19 +251,19 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="报修人">
-                <el-input placeholder v-model="addRepairData.bar_code" disabled></el-input>
+                <el-input placeholder v-model="addRepairData.report_repair_id" disabled></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
               <el-form-item label="维修状态">
-                <el-select placeholder="资产类型" v-model="editRepairData.type_id">
+                <el-select placeholder="维修状态" v-model="editRepairData.status" :value="editRepairData.status" @change="stateChange">{{editRepairData.status}}
                     <el-option
-                      v-for="v in $store.state.type"
-                      :key="v.id"
-                      :label="v.name"
-                      :value="v.id"
+                      v-for="v in status"
+                      :key="v.status"
+                      :label="v.title"
+                      :value="v.status"
                     ></el-option>
                   </el-select>
               </el-form-item>
@@ -265,32 +271,32 @@
             <el-col :span="8">
               <el-form-item label="维修人">
                 <el-input v-model="selectUser.personnel_name">
-                  <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true" disabled></el-button>
+                  <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true"></el-button>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="报修时间">
-                <el-date-picker v-model="addRepairData.report_time" type="date" placeholder="选择日期"></el-date-picker>
+              <el-form-item label="维修时间">
+                <el-date-picker v-model="addRepairData.repair_time" type="date" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <el-form-item label="报修说明">
-                <el-input type="textarea" v-model="addRepairData.remarks" width="80%"></el-input>
+                <el-input type="textarea" v-model="addRepairData.repair_content" width="80%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="18">
               <el-form-item label="维修说明">
-                <el-input type="textarea" v-model="addRepairData.remarks" width="80%"></el-input>
+                <el-input type="textarea" v-model="addRepairData.repair_remarks" width="80%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="维修花费">
-                <el-input placeholder v-model="addRepairData.personnel_id" disabled></el-input>
+                <el-input placeholder v-model="addRepairData.cost" disabled></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -299,7 +305,6 @@
               :data="selectedAssetData"
               border
               style="width: 100%"
-              align="center"
               @selection-change="delSelectionChange"
             >
               <el-table-column type="selection"></el-table-column>
@@ -313,7 +318,12 @@
               <el-table-column prop="address" label="存放地点"></el-table-column>
             </el-table>
           </el-row>
+          
         </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editRepairTableVisible = false">取 消</el-button>
+          <el-button type="primary" @click="editRepair">确 定</el-button>
+        </div>
       </el-dialog>
       <!-- 分页 -->
       <el-pagination
@@ -330,14 +340,16 @@
 </template>
 <script>
 import DaAssetsState from "@/components/DaAssetsState.vue"
-import Breadcrumb from "@/components/Breadcrumb.vue";
-import SelectUser from "@/components/SelectUser.vue";
-import SelectAssets from "@/components/SelectAssets.vue";
+import Breadcrumb from "@/components/Breadcrumb.vue"
+import SelectUser from "@/components/SelectUser.vue"
+import SelectAssets from "@/components/SelectAssets.vue"
 export default {
   name: "Repair",
   data() {
     return {
       active:0,//步骤条默认状态变量
+      stated:'维修成功',
+      finishStatus:'success',//步骤条结束时状态
       date: "",
       repairData: [], //维修表格数据
       pageSize: 10, //分页默认size
@@ -353,10 +365,45 @@ export default {
       selectCompany: {}, //选择公司数据
       selectingAssetData: [], //选择资产时数据
       selectedAssetData: [], //确定选择资产数据
-      delAssetsData: [] //即将要删除的数据
+      delAssetsData: [], //即将要删除的数据
+      status:[{
+        status:9,
+        title:'已取消'
+      },
+      {
+        status:10,
+        title:'已报修'
+      },
+      {
+        status:11,
+        title:'已接单'
+      },
+      {
+        status:12,
+        title:'维修中'
+      },
+      {
+        status:13,
+        title:'维修成功'
+      },
+      {
+        status:14,
+        title:'维修失败'
+      }]
     };
   },
   methods: {
+    //维修状态发生变化
+    stateChange(val){
+      switch(val){
+        case 9:this.active=0;this.stated='维修成功';this.finishStatus='success';break;
+        case 10:this.active=1;this.stated='维修成功';this.finishStatus='success';break;
+        case 11:this.active=2;this.stated='维修成功';this.finishStatus='success';break;
+        case 12:this.active=3;this.stated='维修成功';this.finishStatus='success';break;
+        case 13:this.active=4;this.stated='维修成功';this.finishStatus='success';break;
+        case 14:this.active=5;this.stated='维修失败';this.finishStatus='error';break;
+      }
+    },
     // 分页条数变化
     handleSizeChange() {},
     // 当前页发生变化
@@ -373,6 +420,7 @@ export default {
       this.addRepairTableVisible = false;
       this.addRepairData.report_time =
         this.addRepairData.report_time || new Date();
+        this.addRepairData.status=10;
       this.repairData.push(this.addRepairData);
       console.log(this.addRepairData);
       this.$message({
@@ -394,6 +442,15 @@ export default {
     editRepair(val){
       this.editRepairTableVisible =true;
       this.editRepairData = JSON.parse(JSON.stringify(val));
+      console.log(this.editRepairData)
+      switch(this.editRepairData.status){
+        case 9:this.active=0;this.stated='维修成功';this.finishStatus='success';break;
+        case 10:this.active=1;this.stated='维修成功';this.finishStatus='success';break;
+        case 11:this.active=2;this.stated='维修成功';this.finishStatus='success';break;
+        case 12:this.active=3;this.stated='维修成功';this.finishStatus='success';break;
+        case 13:this.active=4;this.stated='维修成功';this.finishStatus='success';break;
+        case 14:this.active=5;this.stated='维修失败';this.finishStatus='error';break;
+      }
     },
     //选择公司部门员工
     selectUsers(users, departments, company) {
@@ -434,7 +491,7 @@ export default {
         repair_handle_id:1,
         report_repair_id:1,
         cost:80,
-        status:4,
+        status:10,
         repair_time:"1529254718034",
         repair_content:"",
         repair_remarks:"",
@@ -447,7 +504,7 @@ export default {
         repair_handle_id:2,
         report_repair_id:2,
         cost:80,
-        status:3,
+        status:11,
         repair_time:"1529254718034",
         repair_content:"",
         repair_remarks:"",
@@ -460,7 +517,7 @@ export default {
         repair_handle_id:3,
         report_repair_id:3,
         cost:80,
-        status:2,
+        status:12,
         repair_time:"1529254718034",
         repair_content:"",
         repair_remarks:"",
@@ -473,7 +530,7 @@ export default {
         repair_handle_id:4,
         report_repair_id:4,
         cost:80,
-        status:1,
+        status:13,
         repair_time:"1529254718034",
         repair_content:"",
         repair_remarks:"",
