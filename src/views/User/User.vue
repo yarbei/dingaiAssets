@@ -131,7 +131,7 @@
     <!-- 编辑资产表单 -->
     <el-dialog title="编辑" :visible.sync="editUsersTableVisible" width="80%">
        <el-form
-        :model="editUsers"
+        :model="editUser"
         class="demo-form-inline"
         :size="$store.state.uiSize"
         label-width="80px"
@@ -234,19 +234,18 @@ export default {
     handleCurrentChange(currentPage) {},
     // 打开新增用户表单
     addUsers() {
-      this.addUsers = {};
+      this.addUser = {};
       this.addUsersTableVisible = true;
     },
     // 确定提交新增数据
     addUsersDone() {
       this.addUsersTableVisible = false;
-      this.addUsers.purchase_time = this.addUsers.purchase_time || new Date();
       this.userData.push(this.addUsers);
       this.$message({
         message: "提交成功",
         type: "success"
       });
-      this.addUsers = {};
+      this.addUser = {};
     },
     //导出表格
     exportExcel() {

@@ -225,11 +225,6 @@ export default {
     delSelectionChange(val) {
       this.delData = JSON.parse(JSON.stringify(val));
     },
-    returnSelectionChange(val) {
-      this.returnData = JSON.parse(JSON.stringify(val));
-      this.returnData = val
-      // console.log(this.returnData)
-    },
     delDialogs(val) {
       if(this.delData.length == 0 ){
         this.$message({
