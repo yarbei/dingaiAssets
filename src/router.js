@@ -142,6 +142,16 @@ var router = new Router({
           title: '分类汇总'
         }
       }]
+    },{
+      path: 'orgstruc',
+      name: 'orgstruc',
+      hidden: false,
+      component: () =>
+        import ('@/views/OrgStruc/OrgStruc.vue'),
+      meta: {
+        icon: 'el-icon-rank',
+        title: '组织结构'
+      }
     }]
   }]
 })

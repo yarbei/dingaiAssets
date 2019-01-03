@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import Breadcrumb from "@/components/Breadcrumb.vue";
+
   import Receive from "./Receive.vue";
 
     export default {

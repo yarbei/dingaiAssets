@@ -150,9 +150,9 @@
     </el-dialog>
 
     <!-- 查看退库资产表单 -->
-    <el-dialog title="退库单" :visible.sync="seeReceiveTableVisible" width="80%" readonly>
+    <el-dialog title="退库单" :visible.sync="seeReceiveTableVisible" width="80%">
       <el-form
-        :model="addReceiveData"
+        :model="seeReceiveData"
         class="demo-form-inline"
         :size="$store.state.uiSize"
         label-width="80px"
@@ -160,12 +160,12 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="退库处理人">
-              <el-input placeholder="退库处理人" v-model="addReceiveData.bar_code" disabled></el-input>
+              <el-input placeholder="退库处理人" v-model="seeReceiveData.bar_code" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="退库时间">
-              <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期"></el-date-picker>
+              <el-date-picker v-model="seeReceiveData.collar_time" type="date" placeholder="选择日期" readonly></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -177,21 +177,15 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="退库仓库">
-              <el-select placeholder="退库仓库" v-model="addReceiveData.warehouse_id">
-                <el-option
-                  v-for="v in $store.state.address"
-                  :key="v.id"
-                  :label="v.name"
-                  :value="v.id"
-                ></el-option>
-              </el-select>
+              <el-input placeholder="退库仓库" v-model="seeReceiveData.warehouse_id" readonly="">
+              </el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <el-form-item label="退库说明">
-              <el-input type="textarea" v-model="addReceiveData.remarks" width="80%"></el-input>
+              <el-input type="textarea" v-model="seeReceiveData.remarks" width="80%" readonly=""></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -237,10 +231,10 @@
           <el-button type="primary" @click="selectAssetsDone">确 定</el-button>
         </div>
       </el-dialog>
-      <!-- 新增退库表单底部按钮 -->
+      <!-- 查看退库资产表单按钮 -->
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addReceiveTableVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addReceiveDone">确 定</el-button>
+        <el-button @click="seeReceiveTableVisible = false">取 消</el-button>
+        <el-button type="primary" @click="seeReceiveTableVisible = false">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -264,6 +258,8 @@ export default {
   data() {
     return {
       date: "",
+      receiveData:[],
+      seeReceiveData:{},
       returnData: [], //退库资产数据
       pageSize: 10, //分页默认size
       addReceiveTableVisible: false, //打开新增领用资产表单
@@ -292,8 +288,7 @@ export default {
     // 确定提交新增数据
     addReceiveDone() {
       this.addReceiveTableVisible = false;
-      this.addReceiveData.purchase_time =
-        this.addReceiveData.purchase_time || new Date();
+      this.addReceiveData.purchase_time =this.addReceiveData.purchase_time || new Date();
       this.receiveData.push(this.addReceiveData);
       console.log(this.addReceiveData);
       this.$message({
@@ -310,7 +305,7 @@ export default {
     seeReceive(val) {
       console.log(val)
       this.seeReceiveTableVisible = true;
-      this.addReceiveData = JSON.parse(JSON.stringify(val));
+      this.seeReceiveData = JSON.parse(JSON.stringify(val));
     },
     //选择领用资产
     selectAssets(assets) {
