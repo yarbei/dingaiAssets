@@ -47,21 +47,22 @@
         label-width="80px"
       >
         <el-row>
-          <el-col :span="12">
+          <el-col :span="16">
             <el-form-item label="变更单号">
-              <el-input v-model="selectCompany.name" ></el-input>
+              <el-input v-model="selectCompany.name" disabled=""></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="处理时间">
-              <el-date-picker v-model="addReceiveData.purchase_time" type="date" placeholder="选择日期"></el-date-picker>
+              <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期">               
+              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="资产名称">
-              <el-input v-model="selectUser.personnel_name">
+            <el-form-item label="资产名称" >
+              <el-input v-model="addReceiveData.personnel_name">
                 <el-button slot="append" icon="el-icon-user-list" @click="AssetsInnerVisible=true"></el-button>
               </el-input>
             </el-form-item>
@@ -70,7 +71,7 @@
             <el-form-item label="资产类型">
               <el-select placeholder="资产类型" v-model="addReceiveData.warehouse_id">
                 <el-option
-                  v-for="v in $store.state.address"
+                  v-for="v in $store.state.type"
                   :key="v.id"
                   :label="v.name"
                   :value="v.id"
@@ -87,7 +88,7 @@
         <el-row :gutter="8">
           <el-col :span="8">
             <el-form-item label="SN号">
-              <el-input placeholder="SN号" v-model="addReceiveData.bar_code" ></el-input>
+              <el-input placeholder="SN号" v-model="addReceiveData.bar_code" disabled=""></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -99,14 +100,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="管理员">
-              <el-select placeholder="管理员" v-model="addReceiveData.warehouse_id">
-                <el-option
-                  v-for="v in $store.state.address"
-                  :key="v.id"
-                  :label="v.name"
-                  :value="v.id"
-                ></el-option>
-              </el-select>
+              <el-input placeholder="管理员" v-model="addReceiveData.personal_name" disabled=""></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -177,16 +171,17 @@
         class="demo-form-inline"
         :size="$store.state.uiSize"
         label-width="80px"
+        disabled 
       >
         <el-row>
-          <el-col :span="12">
+          <el-col :span="16">
             <el-form-item label="领用人">
               <el-input v-model="addReceiveData.personnel_name" >
                 <el-button slot="append" icon="el-icon-user-list" @click="UserInnerVisible=true"></el-button>
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="处理时间">
               <el-date-picker v-model="addReceiveData.collar_time" type="date" placeholder="选择日期"></el-date-picker>
             </el-form-item>
@@ -222,7 +217,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="管理员">
-              <el-input v-model="addReceiveData.department_name" ></el-input>
+              <el-input v-model="addReceiveData.admin" ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -244,7 +239,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="14">
+          <el-col :span="16">
             <el-form-item label="备注">
               <el-input type="textarea" v-model="addReceiveData.remarks" width="80%"></el-input>
             </el-form-item>
@@ -351,7 +346,7 @@ export default {
       this.addReceiveData.purchase_time =
         this.addReceiveData.purchase_time || new Date();
       this.receiveData.push(this.addReceiveData);
-      console.log(this.addReceiveData);
+      // console.log(this.addReceiveData);
       this.$message({
         message: "提交成功",
         type: "success"
@@ -364,7 +359,7 @@ export default {
     },
     //查看信息变更表单
     seeReceive(val) {
-      console.log(val);
+      // console.log(val);
       this.seeReceiveTableVisible = true;
       this.addReceiveData = JSON.parse(JSON.stringify(val));
     },
@@ -378,24 +373,18 @@ export default {
     },
     //选择领用资产
     selectAssets(assets) {
+      // console.log(assets)
       this.selectingAssetData = assets;
     },
     // 确定选择领用资产
     selectAssetsDone() {
       this.AssetsInnerVisible = false;
       this.selectedAssetData = this.selectingAssetData;
+      this.addReceiveData.personnel_name = this.selectingAssetData[0].name
     },
     //选中领用的资产的数据
     delSelectionChange(val) {
       this.delAssetsData = val;
-    },
-    //删除选中的领用的资产数据
-    delAssets() {
-      let a = new Set(this.selectedAssetData);
-      let b = new Set(this.delAssetsData);
-      let differenceABSet = new Set([...a].filter(x => !b.has(x)));
-      let arr = Array.from(differenceABSet);
-      this.selectedAssetData = arr;
     }
   },
   mounted() {

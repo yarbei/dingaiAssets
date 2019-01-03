@@ -102,6 +102,16 @@ var router = new Router({
         title: '维修管理'
       }
     }, {
+      path: 'scrap',
+      name: 'scrap',
+      hidden: false,
+      component: () =>
+        import ('@/views/Scrap/Scrap.vue'),
+      meta: {
+        icon: 'el-icon-weixiu',
+        title: '报废管理'
+      }
+    }, {
       path: 'census',
       name: 'census',
       hidden: false,
@@ -143,6 +153,17 @@ var router = new Router({
         }
       }]
     },{
+<<<<<<< HEAD
+      path: 'orgstruc',
+      name: 'orgstruc',
+      hidden: false,
+      component: () =>
+        import ('@/views/OrgStruc/OrgStruc.vue'),
+      meta: {
+        icon: 'el-icon-rank',
+        title: '组织结构'
+      }
+=======
       path: 'set',
       name: 'set',
       hidden: false,
@@ -213,6 +234,7 @@ var router = new Router({
           title: '资产编码'
         }
       }]
+>>>>>>> 1775c6d1137f0e0cd4ca9e675639c48cf45af046
     }]
   }]
 })

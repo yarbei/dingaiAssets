@@ -17,7 +17,6 @@ axios.interceptors.request.use(function (config) {
 // 添加响应拦截器
 axios.interceptors.response.use(function (res) {
   // 对响应数据做点什么
-  // token 1001
   if (res.code == 1001) {
     store.commit('save_token', '')
     window.location.href = '/'
