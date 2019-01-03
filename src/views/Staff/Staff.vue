@@ -26,6 +26,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </el-col>
+            <!-- 搜索框 -->
             <el-col :span="6">
               <div>
                 <el-input
@@ -48,18 +49,18 @@
         style="width: 100%"
         align="center"
         @selection-change="delSelectionChange">
-        <el-table-column fixed="left" type="selection" width="80" align="center"></el-table-column>
-        <el-table-column prop="status" label="在职状态" width="100" align="center">
+        <el-table-column fixed="left" type="selection" width="120" align="center"></el-table-column>
+        <el-table-column prop="status" label="在职状态" width="150" align="center">
           <!-- <template slot-scope="scope">
             <da-assets-state :status="scope.row.status"></da-assets-state>
           </template> -->
         </el-table-column>
-        <el-table-column prop="type_id" label="员工编号" width="150"></el-table-column>
-        <el-table-column prop="name" label="员工姓名" width="150"></el-table-column>
-        <el-table-column prop="company" label="所属公司" width="150"></el-table-column>
-        <el-table-column prop="department" label="所属部门" width="150"></el-table-column>
-        <el-table-column prop="phonenum" label="手机号码" width="150"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
+        <el-table-column prop="type_id" label="员工编号" width="150" align="center"></el-table-column>
+        <el-table-column prop="name" label="员工姓名" width="150" align="center"></el-table-column>
+        <el-table-column prop="company" label="所属公司" width="150" align="center"></el-table-column>
+        <el-table-column prop="department" label="所属部门" width="150" align="center"></el-table-column>
+        <el-table-column prop="tell" label="手机号码" width="150" align="center"></el-table-column>
+        <el-table-column prop="email" label="邮箱" width="200" align="center"></el-table-column>
         <!-- <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="seeDialog(scope.row)" type="text" size="small">查看</el-button>
@@ -79,12 +80,12 @@
       ></el-pagination>
     </el-card>
     <!-- 新增弹框 开始 -->
-    <el-dialog title="用户管理" :visible.sync="addDialogTableVisible">
+    <el-dialog title="员工管理" :visible.sync="addDialogTableVisible">
         <el-row class="person_box">
             <el-form
             ref="addform"
-            :rules="rules"
-            :model="Info"
+            
+            :model="addDialog"
             size="small"
             label-width="80px"
             >
@@ -101,17 +102,20 @@
                     v-for="v in $store.state.company"
                       :key="v.id"
                       :label="v.name"
-                      :value="v.id"
+                      :value="v.name"
                     ></el-option>
                 </el-select>
                 </el-form-item>
                 <el-form-item label="部门名称" prop="department_name">
                 <el-select v-model="addDialog.department" placeholder="部门名称">
                     <el-option
-                    v-for="v in $store.state.department"
+                    {{if($store.state.company.children){
+                      v-for="v in $store.state.company.children"
                       :key="v.id"
                       :label="v.name"
-                      :value="v.id"
+                      :value="v.name"
+                    }}}
+                    
                     ></el-option>
                 </el-select>
                 </el-form-item>
@@ -119,7 +123,7 @@
                 <el-input v-model="addDialog.email" placeholder="邮箱" ></el-input>
                 </el-form-item>
                 <el-form-item label="手机号码">
-                <el-input v-model="addDialog.phonenum" placeholder="手机号码" ></el-input>
+                <el-input v-model="addDialog.tell" placeholder="手机号码" ></el-input>
                 </el-form-item>
             </el-col>
             </el-form>
@@ -774,22 +778,22 @@ import DaAssetsState from "@/components/DaAssetsState.vue";
 export default {
     name:'Staff',
     data() {
-    return {
-      activeName: "active", //选项默认选中
-      search: "", //搜索关键词
-      pageSize: 10, //分页默认size
-      registerData: [], //所有资产数据
-      addDialogTableVisible: false, //打开新增资产表单
-      addDialog: {}, //新增资产数据
-      imageUrl: "", //上传地址
-      seeDialogTableVisible: false, //查看资产表单
-      editDialogTableVisible: false, //打开编辑资产表单
-      editDialog: {}, //编辑资产数据
-      delData: [] //将要删除的数据
-    };
-  },
-  mounted() {
-    this.registerData = [
+        return {
+        activeName: "active", //选项默认选中
+        search: "", //搜索关键词
+        pageSize: 10, //分页默认size
+        registerData: [], //所有资产数据
+        addDialogTableVisible: false, //打开新增资产表单
+        addDialog: {}, //新增资产数据
+        imageUrl: "", //上传地址
+        seeDialogTableVisible: false, //查看资产表单
+        editDialogTableVisible: false, //打开编辑资产表单
+        editDialog: {}, //编辑资产数据
+        delData: [] //将要删除的数据
+        };
+    },
+    mounted() {
+      this.registerData = [
       {
         id: 1,
         bar_code: "0191063662278",
@@ -801,7 +805,7 @@ export default {
         sn: 49090343,
         metering: "台",
         money: 2980,
-        company: "光威",
+        company: "西安优逸客",
         department: "技术部",
         purchase_time: "Sat Aug 25 2018 23:25:52 GMT+0800 (中国标准时间)",
         user_id: 1001,
@@ -829,7 +833,7 @@ export default {
         sn: 49090343,
         metering: "台",
         money: 280,
-        company: "南京",
+        company: "山西优逸客",
         department: "技术部",
         purchase_time: "1529254718034",
         user_id: 1001,
@@ -857,7 +861,7 @@ export default {
         sn: 49090343,
         metering: "台",
         money: 280,
-        company: "南京",
+        company: "山西优逸客",
         department: "技术部",
         purchase_time: "1529254718034",
         user_id: 1001,
@@ -875,7 +879,7 @@ export default {
         explain: ""
       }
     ];
-  },
+    },
   methods: {
     // 分页 条数 变化
     handleSizeChange(size) {
@@ -952,12 +956,20 @@ export default {
     },
     //删除数据
     delDialogs(val) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      if(this.delData.length==0 ){
+        // console.log(this.delData)
+        this.$message({
+          message: "请选中要删除资产分类的数据条目！",
+          showClose: true,
+          type: "info"
+        });
+      }
+      if(this.delData.length!=0){
+        this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(() => {
+        }).then(() => {
           this.registerData.forEach((v, k) => {
             this.delData.forEach((val, key) => {
               if (v.id == val.id) {
@@ -967,15 +979,17 @@ export default {
           });
           this.$message({
             type: "success",
+            showClose: true,
             message: "删除成功!"
           });
-        })
-        .catch(() => {
+        }).catch(() => {
           this.$message({
             type: "info",
+            showClose: true,
             message: "已取消删除"
           });
         });
+      }
     }
   },
   components: {
@@ -986,27 +1000,27 @@ export default {
 
 </script>
 <style lang="less">
-      .avatar-uploader .el-upload {
+.avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
+}
+.avatar-uploader .el-upload:hover {
     border-color: #409eff;
-  }
-  .avatar-uploader-icon {
+}
+.avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
     width: 178px;
     height: 178px;
     line-height: 178px;
     text-align: center;
-  }
-  .avatar {
+    }
+.avatar {
     width: 178px;
     height: 178px;
     display: block;
-  }
+}
 </style>
