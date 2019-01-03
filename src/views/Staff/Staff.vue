@@ -1,9 +1,9 @@
 <template>
-  <div>
+    <div>
     <Breadcrumb></Breadcrumb>
     <el-card>
       <el-tabs v-model="activeName">
-        <el-tab-pane label="资产登记" name="active">
+        <el-tab-pane label="员工管理" name="active">
           <el-row>
             <el-col :span="18">
               <el-button type="primary" icon="el-icon-plus" size="small" @click="addDialogs">新增</el-button>
@@ -13,16 +13,16 @@
                 导入导出
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>下载导入模板</el-dropdown-item>
-                  <el-dropdown-item divided>批量导入资产</el-dropdown-item>
-                  <el-dropdown-item divided @click="exportExcel">导出资产</el-dropdown-item>
+                  <el-dropdown-item divided>批量导入员工</el-dropdown-item>
+                  <el-dropdown-item divided @click="exportExcel">导出员工</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
               <el-dropdown split-button type="primary" size="small" style="margin-left:10px">
                 <i class="el-icon-printer"></i>
                 打印
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>打印资产标签</el-dropdown-item>
-                  <el-dropdown-item divided>打印资产卡片</el-dropdown-item>
+                  <el-dropdown-item>打印员工标签</el-dropdown-item>
+                  <el-dropdown-item divided>打印员工卡片</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </el-col>
@@ -48,36 +48,23 @@
         style="width: 100%"
         align="center"
         @selection-change="delSelectionChange">
-        <el-table-column fixed="left" type="selection" width="30"></el-table-column>
-        <el-table-column prop="status" label="资产状态" width="100" align="center">
-          <template slot-scope="scope">
+        <el-table-column fixed="left" type="selection" width="80" align="center"></el-table-column>
+        <el-table-column prop="status" label="在职状态" width="100" align="center">
+          <!-- <template slot-scope="scope">
             <da-assets-state :status="scope.row.status"></da-assets-state>
-          </template>
+          </template> -->
         </el-table-column>
-        <el-table-column prop="bar_code" label="资产条码" width="150"></el-table-column>
-        <el-table-column prop="name" label="资产名称" width="120"></el-table-column>
-        <el-table-column prop="type_id" label="资产类型" width="100"></el-table-column>
-        <el-table-column prop="specification" label="规格型号" width="100"></el-table-column>
-        <el-table-column prop="sn" label="产品序列" width="100"></el-table-column>
-        <el-table-column prop="money" label="金额" width="100">
-          <template slot-scope="scope">{{scope.row.money | currency}}</template>
-        </el-table-column>
-        <el-table-column prop="company" label="使用公司" width="100"></el-table-column>
-        <el-table-column prop="department" label="使用部门" width="100"></el-table-column>
-        <el-table-column prop="purchase_time" label="购买时间" width="150">
-          <template slot-scope="scope">{{scope.row.purchase_time | date}}</template>
-        </el-table-column>
-        <el-table-column prop="user_id" label="使用人" width="100"></el-table-column>
-        <el-table-column prop="manager_id" label="管理员" width="100"></el-table-column>
-        <el-table-column prop="address" label="存放地点" width="100"></el-table-column>
-        <el-table-column prop="duration_use" label="使用期限" width="100"></el-table-column>
-        <el-table-column prop="source" label="来源" width="100"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column prop="type_id" label="员工编号" width="150"></el-table-column>
+        <el-table-column prop="name" label="员工姓名" width="150"></el-table-column>
+        <el-table-column prop="company" label="所属公司" width="150"></el-table-column>
+        <el-table-column prop="department" label="所属部门" width="150"></el-table-column>
+        <el-table-column prop="phonenum" label="手机号码" width="150"></el-table-column>
+        <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
+        <!-- <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="seeDialog(scope.row)" type="text" size="small">查看</el-button>
-            <el-button @click="editDialogs(scope.row)" type="text" size="small">编辑</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
 
       <!-- 分页 -->
@@ -91,8 +78,60 @@
         background
       ></el-pagination>
     </el-card>
+    <!-- 新增弹框 开始 -->
+    <el-dialog title="用户管理" :visible.sync="addDialogTableVisible">
+        <el-row class="person_box">
+            <el-form
+            ref="addform"
+            :rules="rules"
+            :model="Info"
+            size="small"
+            label-width="80px"
+            >
+            <el-col :span="16">
+                <el-form-item label="员工编号">
+                <el-input v-model="addDialog.type_id" placeholder="员工编号" ></el-input>
+                </el-form-item>
+                <el-form-item label="员工姓名" prop="personnel_name">
+                <el-input v-model="addDialog.name" placeholder="员工姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="公司名称" prop="company">
+                <el-select v-model="addDialog.company" placeholder="使用公司">
+                    <el-option
+                    v-for="v in $store.state.company"
+                      :key="v.id"
+                      :label="v.name"
+                      :value="v.id"
+                    ></el-option>
+                </el-select>
+                </el-form-item>
+                <el-form-item label="部门名称" prop="department_name">
+                <el-select v-model="addDialog.department" placeholder="部门名称">
+                    <el-option
+                    v-for="v in $store.state.department"
+                      :key="v.id"
+                      :label="v.name"
+                      :value="v.id"
+                    ></el-option>
+                </el-select>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                <el-input v-model="addDialog.email" placeholder="邮箱" ></el-input>
+                </el-form-item>
+                <el-form-item label="手机号码">
+                <el-input v-model="addDialog.phonenum" placeholder="手机号码" ></el-input>
+                </el-form-item>
+            </el-col>
+            </el-form>
+        </el-row>
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addDialogDone">确 定</el-button>
+        <el-button @click="addDialogTableVisible = false">取 消</el-button>
+    </div>
+    </el-dialog>
+    <!-- 新增弹框 结束 -->
     <!-- 新增资产表单 -->
-    <el-dialog title="资产登记" :visible.sync="addDialogTableVisible" width="80%">
+    <!-- <el-dialog title="员工" :visible.sync="addDialogTableVisible" width="80%">
       <el-tabs tab-position="left">
         <el-tab-pane label="基本信息">
           <el-form
@@ -301,9 +340,9 @@
         <el-button @click="addDialogTableVisible = false">取 消</el-button>
         <el-button type="primary" @click="addDialogDone">确 定</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!-- 查看资产表单 -->
-    <el-dialog title="查看" :visible.sync="seeDialogTableVisible" width="80%">
+    <!-- <el-dialog title="查看" :visible.sync="seeDialogTableVisible" width="80%">
       <el-tabs tab-position="left">
         <el-tab-pane label="基本信息">
           <el-form
@@ -514,9 +553,9 @@
         <el-button @click="seeDialogTableVisible = false">取 消</el-button>
         <el-button type="primary" @click="seeDialogTableVisible = false">确 定</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!-- 编辑资产表单 -->
-    <el-dialog title="编辑" :visible.sync="editDialogTableVisible" width="80%">
+    <!-- <el-dialog title="编辑" :visible.sync="editDialogTableVisible" width="80%">
       <el-tabs tab-position="left">
         <el-tab-pane label="基本信息">
           <el-form
@@ -726,15 +765,15 @@
         <el-button @click="editDialogTableVisible = false">取 消</el-button>
         <el-button type="primary" @click="editDialogDone">确 定</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import DaAssetsState from "@/components/DaAssetsState.vue";
 export default {
-  name: "Register",
-  data() {
+    name:'Staff',
+    data() {
     return {
       activeName: "active", //选项默认选中
       search: "", //搜索关键词
@@ -754,14 +793,16 @@ export default {
       {
         id: 1,
         bar_code: "0191063662278",
-        name: "打印机",
+        name: "李四",
         type_id: "02",
+        phonenum:'1389274852',
+        email:'105186579@qq.com',
         specification: "索尼3000",
         sn: 49090343,
         metering: "台",
         money: 2980,
         company: "光威",
-        department: "",
+        department: "技术部",
         purchase_time: "Sat Aug 25 2018 23:25:52 GMT+0800 (中国标准时间)",
         user_id: 1001,
         manager_id: 102,
@@ -780,14 +821,16 @@ export default {
       {
         id: 2,
         bar_code: "0191063662276",
-        name: "切纸机",
+        name: "王五",
         type_id: "03",
+        phonenum:'1389274852',
+        email:'105186579@qq.com',
         specification: "索尼3000",
         sn: 49090343,
         metering: "台",
         money: 280,
         company: "南京",
-        department: "",
+        department: "技术部",
         purchase_time: "1529254718034",
         user_id: 1001,
         manager_id: 102,
@@ -806,226 +849,20 @@ export default {
       {
         id: 3,
         bar_code: "0191063662267",
-        name: "复印机",
+        name: "马六",
         type_id: "03",
+        phonenum:'1389274852',
+        email:'105186579@qq.com',
         specification: "索尼3000",
         sn: 49090343,
         metering: "台",
         money: 280,
         company: "南京",
-        department: "",
+        department: "技术部",
         purchase_time: "1529254718034",
         user_id: 1001,
         manager_id: 102,
         status: 2,
-        address: "办公室北区",
-        duration_use: "",
-        source: "购入",
-        remarks: "",
-        image: "http://placehold.it/200x200",
-        supplier: "索尼赛格旗舰店",
-        contacts: "张素芳",
-        tell: 13131312323,
-        expiry_time: "1529254718034",
-        explain: ""
-      },
-      {
-        id: 4,
-        bar_code: "0191064662278",
-        name: "电风扇",
-        type_id: "03",
-        specification: "索尼3000",
-        sn: 49090343,
-        metering: "台",
-        money: 280,
-        company: "南京",
-        department: "",
-        purchase_time: "1529254718034",
-        user_id: 1001,
-        manager_id: 102,
-        status: 0,
-        address: "办公室北区",
-        duration_use: "",
-        source: "购入",
-        remarks: "",
-        image: "http://placehold.it/200x200",
-        supplier: "索尼赛格旗舰店",
-        contacts: "张素芳",
-        tell: 13131312323,
-        expiry_time: "1529254718034",
-        explain: ""
-      },
-      {
-        id: 5,
-        bar_code: "0191063662270",
-        name: "电风扇",
-        type_id: "03",
-        specification: "索尼3000",
-        sn: 49090343,
-        metering: "台",
-        money: 280,
-        company: "南京",
-        department: "",
-        purchase_time: "1529254718034",
-        user_id: 1001,
-        manager_id: 102,
-        status: 12,
-        address: "办公室北区",
-        duration_use: "",
-        source: "购入",
-        remarks: "",
-        image: "http://placehold.it/200x200",
-        supplier: "索尼赛格旗舰店",
-        contacts: "张素芳",
-        tell: 13131312323,
-        expiry_time: "1529254718034",
-        explain: ""
-      },
-      {
-        id: 6,
-        bar_code: "0191063662277",
-        name: "电风扇",
-        type_id: "03",
-        specification: "索尼3000",
-        sn: 49090343,
-        metering: "台",
-        money: 280,
-        company: "南京",
-        department: "",
-        purchase_time: "1529254718034",
-        user_id: 1001,
-        manager_id: 102,
-        status: 0,
-        address: "办公室北区",
-        duration_use: "",
-        source: "购入",
-        remarks: "",
-        image: "http://placehold.it/200x200",
-        supplier: "索尼赛格旗舰店",
-        contacts: "张素芳",
-        tell: 13131312323,
-        expiry_time: "1529254718034",
-        explain: ""
-      },
-      {
-        id: 7,
-        bar_code: "0191063662272",
-        name: "电风扇",
-        type_id: "03",
-        specification: "索尼3000",
-        sn: 49090343,
-        metering: "台",
-        money: 280,
-        company: "南京",
-        department: "",
-        purchase_time: "1529254718034",
-        user_id: 1001,
-        manager_id: 102,
-        status: 4,
-        address: "办公室北区",
-        duration_use: "",
-        source: "购入",
-        remarks: "",
-        image: "http://placehold.it/200x200",
-        supplier: "索尼赛格旗舰店",
-        contacts: "张素芳",
-        tell: 13131312323,
-        expiry_time: "1529254718034",
-        explain: ""
-      },
-      {
-        id: 8,
-        bar_code: "0191063662271",
-        name: "电风扇",
-        type_id: "03",
-        specification: "索尼3000",
-        sn: 49090343,
-        metering: "台",
-        money: 280,
-        company: "南京",
-        department: "",
-        purchase_time: "1529254718034",
-        user_id: 1001,
-        manager_id: 102,
-        status: 0,
-        address: "办公室北区",
-        duration_use: "",
-        source: "购入",
-        remarks: "",
-        image: "http://placehold.it/200x200",
-        supplier: "索尼赛格旗舰店",
-        contacts: "张素芳",
-        tell: 13131312323,
-        expiry_time: "1529254718034",
-        explain: ""
-      },
-      {
-        id: 9,
-        bar_code: "0191063662252",
-        name: "电风扇",
-        type_id: "03",
-        specification: "索尼3000",
-        sn: 49090343,
-        metering: "台",
-        money: 280,
-        company: "南京",
-        department: "",
-        purchase_time: "1529254718034",
-        user_id: 1001,
-        manager_id: 102,
-        status: 0,
-        address: "办公室北区",
-        duration_use: "",
-        source: "购入",
-        remarks: "",
-        image: "http://placehold.it/200x200",
-        supplier: "索尼赛格旗舰店",
-        contacts: "张素芳",
-        tell: 13131312323,
-        expiry_time: "1529254718034",
-        explain: ""
-      },
-      {
-        id: 10,
-        bar_code: "0191063662223",
-        name: "电风扇",
-        type_id: "03",
-        specification: "索尼3000",
-        sn: 49090343,
-        metering: "台",
-        money: 280,
-        company: "南京",
-        department: "",
-        purchase_time: "1529254718034",
-        user_id: 1001,
-        manager_id: 102,
-        status: 0,
-        address: "办公室北区",
-        duration_use: "",
-        source: "购入",
-        remarks: "",
-        image: "http://placehold.it/200x200",
-        supplier: "索尼赛格旗舰店",
-        contacts: "张素芳",
-        tell: 13131312323,
-        expiry_time: "1529254718034",
-        explain: ""
-      },
-      {
-        id: 11,
-        bar_code: "0191063662233",
-        name: "电风扇",
-        type_id: "03",
-        specification: "索尼3000",
-        sn: 49090343,
-        metering: "台",
-        money: 280,
-        company: "南京",
-        department: "",
-        purchase_time: "1529254718034",
-        user_id: 1001,
-        manager_id: 102,
-        status: 0,
         address: "办公室北区",
         duration_use: "",
         source: "购入",
@@ -1115,17 +952,11 @@ export default {
     },
     //删除数据
     delDialogs(val) {
-      if(this.delData.length == 0 ){
-        this.$message({
-          message: "请选中要删除的数据条目！",
-          type: "info"
-        });
-      }else{
-        this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
         .then(() => {
           this.registerData.forEach((v, k) => {
             this.delData.forEach((val, key) => {
@@ -1145,7 +976,6 @@ export default {
             message: "已取消删除"
           });
         });
-      }
     }
   },
   components: {
@@ -1153,9 +983,10 @@ export default {
     DaAssetsState
   }
 };
+
 </script>
-<style lang="less" scoped>
-  .avatar-uploader .el-upload {
+<style lang="less">
+      .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
@@ -1179,4 +1010,3 @@ export default {
     display: block;
   }
 </style>
-
