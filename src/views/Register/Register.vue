@@ -119,7 +119,7 @@
                       v-for="v in $store.state.type"
                       :key="v.id"
                       :label="v.name"
-                      :value="v.id"
+                      :value="v.name"
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -155,7 +155,7 @@
                       v-for="v in $store.state.company"
                       :key="v.id"
                       :label="v.name"
-                      :value="v.id"
+                      :value="v.name"
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -167,7 +167,7 @@
                       v-for="v in $store.state.department"
                       :key="v.id"
                       :label="v.name"
-                      :value="v.id"
+                      :value="v.name"
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -186,7 +186,7 @@
                       v-for="v in $store.state.staff"
                       :key="v.id"
                       :label="v.name"
-                      :value="v.id"
+                      :value="v.name"
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -198,7 +198,7 @@
                       v-for="v in $store.state.admin"
                       :key="v.id"
                       :label="v.name"
-                      :value="v.id"
+                      :value="v.name"
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -212,7 +212,7 @@
                       v-for="v in $store.state.address"
                       :key="v.id"
                       :label="v.name"
-                      :value="v.id"
+                      :value="v.name"
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -229,7 +229,7 @@
                       v-for="v in $store.state.source"
                       :key="v.id"
                       :label="v.name"
-                      :value="v.id"
+                      :value="v.name"
                     ></el-option>
                   </el-select>
                 </el-form-item>
