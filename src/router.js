@@ -153,17 +153,6 @@ var router = new Router({
         }
       }]
     },{
-<<<<<<< HEAD
-      path: 'orgstruc',
-      name: 'orgstruc',
-      hidden: false,
-      component: () =>
-        import ('@/views/OrgStruc/OrgStruc.vue'),
-      meta: {
-        icon: 'el-icon-rank',
-        title: '组织结构'
-      }
-=======
       path: 'set',
       name: 'set',
       hidden: false,
@@ -174,14 +163,14 @@ var router = new Router({
         title: '设置'
       },
       children: [{
-        path: 'foo',
-        name: 'foo',
-        hidden: false,
-        component: () =>
-          import ('@/views/Foo/Foo.vue'),
-        meta: {
-          icon: 'el-icon-yuan',
-          title: '组织结构'
+        path: 'orgstruc',
+      name: 'orgstruc',
+      hidden: false,
+      component: () =>
+        import ('@/views/OrgStruc/OrgStruc.vue'),
+      meta: {
+        icon: 'el-icon-rank',
+        title: '组织结构'
         }
       }, {
         path: 'staff',
@@ -223,18 +212,19 @@ var router = new Router({
           icon: 'el-icon-yuan',
           title: '资产分类'
         }
-      },{
-        path: 'assetscode',
-        name: 'assetscode',
-        hidden: false,
-        component: () =>
-          import ('@/views/AssetsCode/AssetsCode.vue'),
-        meta: {
-          icon: 'el-icon-yuan',
-          title: '资产编码'
-        }
-      }]
->>>>>>> 1775c6d1137f0e0cd4ca9e675639c48cf45af046
+      },
+      // {
+      //   path: 'assetscode',
+      //   name: 'assetscode',
+      //   hidden: false,
+      //   component: () =>
+      //     import ('@/views/AssetsCode/AssetsCode.vue'),
+      //   meta: {
+      //     icon: 'el-icon-yuan',
+      //     title: '资产编码'
+      //   }
+      // }
+    ]
     }]
   }]
 })
