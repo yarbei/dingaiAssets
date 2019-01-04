@@ -165,7 +165,14 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="维修状态">
-                <el-input placeholder v-model="addRepairData.status" disabled></el-input>
+                <el-select v-model="addRepairData.status" :value="addRepairData.status" @change="stateChange" disabled>{{addRepairData.status}}
+                    <el-option
+                      v-for="v in status"
+                      :key="v.status"
+                      :label="v.title"
+                      :value="v.status"
+                    ></el-option>
+                  </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -241,17 +248,17 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="维修单号">
-                <el-input placeholder v-model="addRepairData.repair_number" disabled></el-input>
+                <el-input placeholder v-model="editRepairData.repair_number" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="报修时间">
-                <el-date-picker v-model="addRepairData.report_time" type="date" placeholder="选择日期" disabled></el-date-picker>
+                <el-date-picker v-model="editRepairData.report_time" type="date" placeholder="选择日期" disabled></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="报修人">
-                <el-input placeholder v-model="addRepairData.report_repair_id" disabled></el-input>
+                <el-input placeholder v-model="editRepairData.report_repair_id" disabled></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -277,26 +284,26 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="维修时间">
-                <el-date-picker v-model="addRepairData.repair_time" type="date" placeholder="选择日期"></el-date-picker>
+                <el-date-picker v-model="editRepairData.repair_time" type="date" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <el-form-item label="报修说明">
-                <el-input type="textarea" v-model="addRepairData.repair_content" width="80%"></el-input>
+                <el-input type="textarea" v-model="editRepairData.repair_content" width="80%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="18">
               <el-form-item label="维修说明">
-                <el-input type="textarea" v-model="addRepairData.repair_remarks" width="80%"></el-input>
+                <el-input type="textarea" v-model="editRepairData.repair_remarks" width="80%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="维修花费">
-                <el-input placeholder v-model="addRepairData.cost" disabled></el-input>
+                <el-input placeholder v-model="editRepairData.cost" disabled></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -437,12 +444,19 @@ export default {
     seeRepair(val) {
       this.seeRepairTableVisible = true;
       this.addRepairData = JSON.parse(JSON.stringify(val));
+      switch(this.addRepairData.status){
+        case 9:this.active=0;this.stated='维修成功';this.finishStatus='success';break;
+        case 10:this.active=1;this.stated='维修成功';this.finishStatus='success';break;
+        case 11:this.active=2;this.stated='维修成功';this.finishStatus='success';break;
+        case 12:this.active=3;this.stated='维修成功';this.finishStatus='success';break;
+        case 13:this.active=4;this.stated='维修成功';this.finishStatus='success';break;
+        case 14:this.active=5;this.stated='维修失败';this.finishStatus='error';break;
+      }
     },
     //编辑维修表单
     editRepair(val){
       this.editRepairTableVisible =true;
       this.editRepairData = JSON.parse(JSON.stringify(val));
-      console.log(this.editRepairData)
       switch(this.editRepairData.status){
         case 9:this.active=0;this.stated='维修成功';this.finishStatus='success';break;
         case 10:this.active=1;this.stated='维修成功';this.finishStatus='success';break;
@@ -453,7 +467,18 @@ export default {
       }
     },
     editRepairDone(){
+      console.log(this.editRepairData)
       this.editRepairTableVisible = false;
+       this.repairData.forEach((val, key) => {
+        if (val.repair_id == this.editRepairData.repair_id) {
+          Object.assign(this.repairData[key], this.editRepairData);
+        }
+      });
+      this.$message({
+        message: "提交成功",
+        type: "success"
+      });
+      this.editRepairData = {};
     },
     //选择公司部门员工
     selectUsers(users, departments, company) {

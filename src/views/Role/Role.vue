@@ -17,14 +17,7 @@
                   <el-dropdown-item divided @click="exportExcel">导出资产</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
-              <el-dropdown split-button type="primary" size="small" style="margin-left:10px">
-                <i class="el-icon-printer"></i>
-                打印
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>打印资产标签</el-dropdown-item>
-                  <el-dropdown-item divided>打印资产卡片</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
+              <el-button type="primary" icon="el-icon-plus" size="small" @click="addAuthorization" style="margin-left:10px;">角色授权</el-button>
             </el-col>
             <el-col :span="6">
               <div>
@@ -62,7 +55,8 @@
           <el-row>
               <el-col :span="8">
                 <el-form-item label="员工工号">
-                  <el-input v-model="addReceiveData.personnel_number"></el-input>
+                  <el-input v-model="addReceiveData.personnel_number">
+                  </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -98,6 +92,20 @@
           <el-button type="primary" @click="addReceiveDone">确 定</el-button>
         </div>
       </el-dialog>
+      <!-- 角色授权 -->
+      <el-dialog title="角色授权" :visible.sync="addAuthorizationTableVisible" width="70%">
+        <el-tree
+          :data="data2"
+          show-checkbox
+          node-key="id"
+          :props="defaultProps">
+        </el-tree>
+        <!-- 角色授权表单底部按钮 -->
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="addAuthorizationTableVisible = false">取 消</el-button>
+          <el-button type="primary" @click="addAuthorizationiveDone">保存</el-button>
+        </div>
+      </el-dialog>
       <!-- 分页 -->
       <el-pagination
         @size-change="handleSizeChange"
@@ -114,6 +122,8 @@
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import DaAssetsState from "@/components/DaAssetsState.vue";
+import SelectUser from "@/components/SelectUser.vue";
+import SelectAssets from "@/components/SelectAssets.vue";
 export default {
   name: "Register",
   data() {
@@ -123,37 +133,75 @@ export default {
       pageSize: 10, //分页默认size
       registerData: [], //所有资产数据
       addReceiveTableVisible: false, //打开新增表单
+      addAuthorizationTableVisible: false, //打开新增表单
       addReceiveData: {}, //新增领用资产数据
       addDialog: {}, //新增资产数据
       imageUrl: "", //上传地址
       editDialog: {}, //编辑资产数据
       delData: [], //将要删除的数据
       receiveData: [], //领用资产数据
-    };
+      data2: [{
+          id: 1,
+          label: '首页',
+          children: [{
+            id: 2,
+            label: '资产登记'
+          }, {
+            id: 3,
+            label: '领用/退库'
+          },{
+            id: 3,
+            label: '报废管理'
+          },]
+      },],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    }
   },
   mounted() {
     this.receiveData = [
-          {
-            id: 1,
-            personnel_number: 1001,
-            personnel_name: "张三",
-            company_name: "康佳",
-            dep_id: 1,
-            department_name: "研发部",
-            email: "zhangsan@qq.com",
-            phone: 13800002222
-          },
-          {
-            id: 2,
-            personnel_number: 1002,
-            personnel_name: "李四",
-            company_id: 1,
-            company_name: "康佳",
-            dep_id: 2,
-            department_name: "人事部",
-            email: "lisi@qq.com",
-            phone: 13800002233
-          }
+      {
+        id: 1,
+        personnel_number: "LY20180618003",
+        collar_time: "1529254718034",
+        personnel_name: "张三",
+        department_name: "研发部",
+        company_name: "康达",
+        email: "12345@qq.com",
+        phone: "12345678901"
+      },
+      {
+        id: 2,
+        personnel_number: "LY20180618013",
+        collar_time: "1529254718034",
+        personnel_name: "李四",
+        department_name: "研发部",
+        company_name: "康达",
+        email: "12345@qq.com",
+        phone: "12345678901"
+      },
+      {
+        id: 3,
+        personnel_number: "LY20180618012",
+        collar_time: "1529254718034",
+        personnel_name: "王五",
+        department_name: "研发部",
+        company_name: "康达",
+        email: "12345@qq.com",
+        phone: "12345678901"
+      },
+      {
+        id: 4,
+        personnel_number: "LY20180618009",
+        collar_time: "1529254718034",
+        personnel_name: "赵柳",
+        department_name: "研发部",
+        company_name: "康达",
+        email: "12345@qq.com",
+        phone: "12345678901"
+      }
     ];
 
   },
@@ -195,6 +243,26 @@ export default {
         type: "success"
       });
       this.addReceiveData = {};
+    },
+
+    // 打开角色授权表单
+    addAuthorization() {
+      if(this.delData.length == 0){
+        this.$message({
+          message: "请选中要删除的数据条目！",
+          type: "info"
+        });
+      }else{
+        this.addAuthorizationTableVisible = true;
+      }
+    },
+    // 提交授权
+    addAuthorizationiveDone() {
+      this.addAuthorizationiveTableVisible = false;
+      this.$message({
+        type: "success",
+        message: "授权成功",
+      });
     },
     //导出表格
     exportExcel() {
@@ -242,7 +310,41 @@ export default {
           });
         });
       }
-    }
+    },
+    handleCheckChange(data, checked, indeterminate) {
+      console.log(data, checked, indeterminate);
+    },
+    handleNodeClick(data) {
+      console.log(data);
+    },
+    loadNode(node, resolve) {
+      if (node.level === 0) {
+        return resolve([{ name: 'region1' }]);
+      }
+      if (node.level > 3) return resolve([]);
+
+      var hasChild;
+      if (node.data.name === 'region1') {
+        hasChild = true;
+      } else {
+        hasChild = Math.random() > 0.5;
+      }
+
+      setTimeout(() => {
+        var data;
+        if (hasChild) {
+          data = [{
+            name: 'zone' + this.count++
+          }, {
+            name: 'zone' + this.count++
+          }];
+        } else {
+          data = [];
+        }
+
+        resolve(data);
+      }, 500);
+    },
   },
   components: {
     Breadcrumb,

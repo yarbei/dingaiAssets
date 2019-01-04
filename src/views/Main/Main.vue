@@ -70,7 +70,7 @@
             <el-menu-item index="/main/info">
               <i class="el-icon-edit-outline"></i> 修改资料
             </el-menu-item>
-            <el-menu-item index="2-3">
+            <el-menu-item index="/login">
               <i class="el-icon-tuichudenglu"></i>退出登录
             </el-menu-item>
           </el-submenu>
