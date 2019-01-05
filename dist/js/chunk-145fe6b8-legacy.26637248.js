@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-145fe6b8"],{"0d8d":function(n,e,t){"use strict";var u=t("c794"),s=t.n(u);s.a},b6ff:function(n,e,t){"use strict";t.r(e);var u=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("router-view")},s=[],c={name:"Census"},i=c,o=(t("0d8d"),t("2877")),r=Object(o["a"])(i,u,s,!1,null,null,null);r.options.__file="Census.vue";e["default"]=r.exports},c794:function(n,e,t){}}]);
-//# sourceMappingURL=chunk-145fe6b8-legacy.26637248.js.map
