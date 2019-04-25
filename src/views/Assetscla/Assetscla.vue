@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
     <Breadcrumb></Breadcrumb>
     <el-card>
       <el-tabs v-model="activeName">
@@ -48,15 +48,16 @@
         border
         style="width: 100%"
         align="center"
-        @selection-change="delSelectionChange">
+        @selection-change="delSelectionChange"
+      >
         <el-table-column fixed="left" type="selection" width="50" align="center"></el-table-column>
         <el-table-column prop="type_id" label="编号" width="200" align="center"></el-table-column>
         <el-table-column prop="name" label="名称" width="200" align="center"></el-table-column>
         <el-table-column prop="duration_use" label="使用年限(月)" width="200" align="center"></el-table-column>
         <el-table-column prop="company" label="父级" width="200" align="center"></el-table-column>
         <!-- <el-table-column prop="tell" label="手机号码" width="200" align="center"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="200" align="center"></el-table-column> -->
-        <el-table-column fixed="right" label="操作" width="150"  align="center">
+        <el-table-column prop="email" label="邮箱" width="200" align="center"></el-table-column>-->
+        <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
             <el-button @click="seeDialog(scope.row)" type="text" size="small">查看</el-button>
           </template>
@@ -76,78 +77,68 @@
     </el-card>
     <!-- 新增弹框 开始 -->
     <el-dialog title="资产分类" :visible.sync="addDialogTableVisible">
-        <el-row class="person_box">
-            <el-form
-            ref="addform"
-            :model="addDialog"
-            size="small"
-            label-width="80px"
-            >
-            <el-col :span="20">
-                <el-form-item label="资产编号">
-                <el-input v-model="addDialog.type_id" placeholder="资产编号" ></el-input>
-                </el-form-item>
-                <el-form-item label="名称" prop="personnel_name">
-                <el-input v-model="addDialog.name" placeholder="名称"></el-input>
-                </el-form-item>
-                <el-form-item label="使用年限(月)">
-                <el-input v-model="addDialog.duration_use" placeholder="使用年限" ></el-input>
-                </el-form-item>
-                <el-form-item label="父级" prop="company">
-                <el-select v-model="addDialog.company" placeholder="选择父级">
-                    <el-option
-                      v-for="v in $store.state.assets_type"
-                      :key="v.id"
-                      :label="v.type_name"
-                      :value="v.type_name">
-                    </el-option>
-                </el-select>
-                </el-form-item>
-            </el-col>
-            </el-form>
-        </el-row>
-    <div slot="footer" class="dialog-footer">
+      <el-row class="person_box">
+        <el-form ref="addform" :model="addDialog" size="small" label-width="80px">
+          <el-col :span="20">
+            <el-form-item label="资产编号">
+              <el-input v-model="addDialog.type_id" placeholder="资产编号"></el-input>
+            </el-form-item>
+            <el-form-item label="名称" prop="personnel_name">
+              <el-input v-model="addDialog.name" placeholder="名称"></el-input>
+            </el-form-item>
+            <el-form-item label="使用年限(月)">
+              <el-input v-model="addDialog.duration_use" placeholder="使用年限"></el-input>
+            </el-form-item>
+            <el-form-item label="父级" prop="company">
+              <el-select v-model="addDialog.company" placeholder="选择父级">
+                <el-option
+                  v-for="v in $store.state.assets_type"
+                  :key="v.id"
+                  :label="v.type_name"
+                  :value="v.type_name"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-form>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addDialogDone">确 定</el-button>
         <el-button @click="addDialogTableVisible = false">取 消</el-button>
-    </div>
+      </div>
     </el-dialog>
     <!-- 新增弹框 结束 -->
-    
+
     <!-- 查看资产表单 -->
     <el-dialog title="查看资产分类" :visible.sync="seeDialogTableVisible">
-        <el-row class="person_box">
-            <el-form
-            ref="addform"
-            :model="addDialog"
-            size="small"
-            label-width="80px"
-            >
-            <el-col :span="20">
-                <el-form-item label="资产编号">
-                <el-input v-model="addDialog.type_id" placeholder="资产编号" readonly ></el-input>
-                </el-form-item>
-                <el-form-item label="名称" prop="personnel_name">
-                <el-input v-model="addDialog.name" placeholder="名称" readonly></el-input>
-                </el-form-item>
-                <el-form-item label="使用年限(月)">
-                <el-input v-model="addDialog.duration_use" placeholder="使用年限"  readonly></el-input>
-                </el-form-item>
-                <el-form-item label="父级" prop="company">
-                <el-input v-model="addDialog.company" placeholder="选择父级" readonly>
-                    <!-- <el-option
+      <el-row class="person_box">
+        <el-form ref="addform" :model="addDialog" size="small" label-width="80px">
+          <el-col :span="20">
+            <el-form-item label="资产编号">
+              <el-input v-model="addDialog.type_id" placeholder="资产编号" readonly></el-input>
+            </el-form-item>
+            <el-form-item label="名称" prop="personnel_name">
+              <el-input v-model="addDialog.name" placeholder="名称" readonly></el-input>
+            </el-form-item>
+            <el-form-item label="使用年限(月)">
+              <el-input v-model="addDialog.duration_use" placeholder="使用年限" readonly></el-input>
+            </el-form-item>
+            <el-form-item label="父级" prop="company">
+              <el-input v-model="addDialog.company" placeholder="选择父级" readonly>
+                <!-- <el-option
                       v-for="v in $store.state.assets_type"
                       :key="v.id"
                       :label="v.type_name"
                       :value="v.type_name">
-                    </el-option> -->
-                </el-input>
-                </el-form-item>
-            </el-col>
-            </el-form>
-        </el-row>
-    <div slot="footer" class="dialog-footer">
+                </el-option>-->
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-form>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="seeDialogTableVisible = false">确 定</el-button>
-    </div>
+      </div>
     </el-dialog>
 
     <!-- <el-dialog title="查看" :visible.sync="seeDialogTableVisible" width="80%">
@@ -361,7 +352,7 @@
         <el-button @click="seeDialogTableVisible = false">取 消</el-button>
         <el-button type="primary" @click="seeDialogTableVisible = false">确 定</el-button>
       </div>
-    </el-dialog> -->
+    </el-dialog>-->
     <!-- 编辑资产表单 -->
     <!-- <el-dialog title="编辑" :visible.sync="editDialogTableVisible" width="80%">
       <el-tabs tab-position="left">
@@ -573,38 +564,38 @@
         <el-button @click="editDialogTableVisible = false">取 消</el-button>
         <el-button type="primary" @click="editDialogDone">确 定</el-button>
       </div>
-    </el-dialog> -->
+    </el-dialog>-->
   </div>
 </template>
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import DaAssetsState from "@/components/DaAssetsState.vue";
 export default {
-    name:'Assetscla',
-    data() {
-        return {
-        activeName: "active", //选项默认选中
-        search: "", //搜索关键词
-        pageSize: 10, //分页默认size
-        registerData: [], //所有资产数据
-        addDialogTableVisible: false, //打开新增资产表单
-        addDialog: {}, //新增资产数据
-        imageUrl: "", //上传地址
-        seeDialogTableVisible: false, //查看资产表单
-        editDialogTableVisible: false, //打开编辑资产表单
-        editDialog: {}, //编辑资产数据
-        delData: [] //将要删除的数据
-        };
-    },
-    mounted() {
-      this.registerData = [
+  name: "Assetscla",
+  data() {
+    return {
+      activeName: "active", //选项默认选中
+      search: "", //搜索关键词
+      pageSize: 10, //分页默认size
+      registerData: [], //所有资产数据
+      addDialogTableVisible: false, //打开新增资产表单
+      addDialog: {}, //新增资产数据
+      imageUrl: "", //上传地址
+      seeDialogTableVisible: false, //查看资产表单
+      editDialogTableVisible: false, //打开编辑资产表单
+      editDialog: {}, //编辑资产数据
+      delData: [] //将要删除的数据
+    };
+  },
+  mounted() {
+    this.registerData = [
       {
         id: 1,
         bar_code: "0191063662278",
         name: "土地房屋及构筑物",
         type_id: "01",
-        phonenum:'1389274852',
-        email:'105186579@qq.com',
+        phonenum: "1389274852",
+        email: "105186579@qq.com",
         specification: "索尼3000",
         sn: 49090343,
         metering: "台",
@@ -616,7 +607,7 @@ export default {
         manager_id: 102,
         status: 0,
         address: "办公室北区",
-        duration_use: "10",    // 使用年限
+        duration_use: "10", // 使用年限
         source: "购入",
         remarks: "",
         image: "http://placehold.it/200x200",
@@ -631,8 +622,8 @@ export default {
         bar_code: "0191063662276",
         name: "通用设备，专用设备",
         type_id: "02",
-        phonenum:'1389274852',
-        email:'105186579@qq.com',
+        phonenum: "1389274852",
+        email: "105186579@qq.com",
         specification: "索尼3000",
         sn: 49090343,
         metering: "台",
@@ -659,8 +650,8 @@ export default {
         bar_code: "0191063662267",
         name: "电子产品",
         type_id: "03",
-        phonenum:'1389274852',
-        email:'105186579@qq.com',
+        phonenum: "1389274852",
+        email: "105186579@qq.com",
         specification: "索尼3000",
         sn: 49090343,
         metering: "台",
@@ -683,16 +674,14 @@ export default {
         explain: ""
       }
     ];
-    },
+  },
   methods: {
     // 分页 条数 变化
     handleSizeChange(size) {
       this.pageSize = size;
     },
     //当前页发生变化
-    handleCurrentChange(currentPage) {
-      
-    },
+    handleCurrentChange(currentPage) {},
     //上传图片
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
@@ -760,39 +749,41 @@ export default {
     },
     //删除数据
     delDialogs(val) {
-        if(this.delData.length==0 ){
-            // console.log(this.delData)
-            this.$message({
-                message: "请选中要删除资产分类的数据条目！",
-                showClose: true,
-                type: "info"
-            });
-        }
-        if(this.delData.length!=0){
-        this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-        }).then(() => {
-          this.registerData.forEach((v, k) => {
-            this.delData.forEach((val, key) => {
-              if (v.id == val.id) {
-                this.registerData.splice(k, 1);
-              }
-            });
-          });
-          this.$message({
-            type: "success",
-            showClose: true,
-            message: "删除成功!"
-          });
-        }).catch(() => {
-          this.$message({
-            type: "info",
-            showClose: true,
-            message: "已取消删除"
-          });
+      if (this.delData.length == 0) {
+        // console.log(this.delData)
+        this.$message({
+          message: "请选中要删除资产分类的数据条目！",
+          showClose: true,
+          type: "info"
         });
+      }
+      if (this.delData.length != 0) {
+        this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.registerData.forEach((v, k) => {
+              this.delData.forEach((val, key) => {
+                if (v.id == val.id) {
+                  this.registerData.splice(k, 1);
+                }
+              });
+            });
+            this.$message({
+              type: "success",
+              showClose: true,
+              message: "删除成功!"
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              showClose: true,
+              message: "已取消删除"
+            });
+          });
       }
     }
   },
@@ -800,30 +791,30 @@ export default {
     Breadcrumb,
     DaAssetsState
   }
-}
+};
 </script>
 <style lang="less">
-    .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 .avatar-uploader .el-upload:hover {
-    border-color: #409eff;
+  border-color: #409eff;
 }
 .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-    }
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
 .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

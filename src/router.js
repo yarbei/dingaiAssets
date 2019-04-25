@@ -8,7 +8,7 @@ var router = new Router({
     path: '/',
     name: 'login',
     component: () =>
-      import ('@/views/Login/Login.vue'),
+      import('@/views/Login/Login.vue'),
     meta: {
       title: '登录'
     }
@@ -17,7 +17,7 @@ var router = new Router({
     name: 'main',
     redirect: '/main',
     component: () =>
-      import ('@/views/Main/Main.vue'),
+      import('@/views/Main/Main.vue'),
     meta: {
       title: '主页'
     },
@@ -26,7 +26,7 @@ var router = new Router({
       name: 'dashboard',
       hidden: false,
       component: () =>
-        import ('@/views/Dashboard/Dashboard.vue'),
+        import('@/views/Dashboard/Dashboard.vue'),
       meta: {
         icon: 'el-icon-dashboard',
         title: '仪表盘'
@@ -36,7 +36,7 @@ var router = new Router({
       name: 'register',
       hidden: false,
       component: () =>
-        import ('@/views/Register/Register.vue'),
+        import('@/views/Register/Register.vue'),
       meta: {
         icon: 'el-icon-qianyuejilu',
         title: '资产登记'
@@ -46,7 +46,7 @@ var router = new Router({
       name: 'usereturn',
       hidden: false,
       component: () =>
-        import ('@/views/Usereturn/Usereturn.vue'),
+        import('@/views/Usereturn/Usereturn.vue'),
       meta: {
         icon: 'el-icon-document',
         title: '领用/退库'
@@ -56,7 +56,7 @@ var router = new Router({
       name: 'modify',
       hidden: false,
       component: () =>
-        import ('@/views/Modify/Modify.vue'),
+        import('@/views/Modify/Modify.vue'),
       meta: {
         icon: 'el-icon-xiugai',
         title: '信息变更'
@@ -66,7 +66,7 @@ var router = new Router({
       name: 'password',
       hidden: true,
       component: () =>
-        import ('@/views/Password/Password.vue'),
+        import('@/views/Password/Password.vue'),
       meta: {
         icon: 'el-icon-qianyuejilu',
         title: '修改密码'
@@ -76,7 +76,7 @@ var router = new Router({
       name: 'info',
       hidden: true,
       component: () =>
-        import ('@/views/Info/Info.vue'),
+        import('@/views/Info/Info.vue'),
       meta: {
         icon: 'el-icon-qianyuejilu',
         title: '修改资料'
@@ -86,7 +86,7 @@ var router = new Router({
       name: 'borrow',
       hidden: false,
       component: () =>
-        import ('@/views/Borrow/Borrow.vue'),
+        import('@/views/Borrow/Borrow.vue'),
       meta: {
         icon: 'el-icon-jiehuan',
         title: '借用归还'
@@ -96,7 +96,7 @@ var router = new Router({
       name: 'repair',
       hidden: false,
       component: () =>
-        import ('@/views/Repair/Repair.vue'),
+        import('@/views/Repair/Repair.vue'),
       meta: {
         icon: 'el-icon-weixiu',
         title: '维修管理'
@@ -106,7 +106,7 @@ var router = new Router({
       name: 'scrap',
       hidden: false,
       component: () =>
-        import ('@/views/Scrap/Scrap.vue'),
+        import('@/views/Scrap/Scrap.vue'),
       meta: {
         icon: 'el-icon-weixiu',
         title: '报废管理'
@@ -116,7 +116,7 @@ var router = new Router({
       name: 'census',
       hidden: false,
       component: () =>
-        import ('@/views/Census/Census.vue'),
+        import('@/views/Census/Census.vue'),
       meta: {
         icon: 'el-icon-qianyuejilu',
         title: '资产统计'
@@ -126,7 +126,7 @@ var router = new Router({
         name: 'bill',
         hidden: false,
         component: () =>
-          import ('@/views/Bill/Bill.vue'),
+          import('@/views/Bill/Bill.vue'),
         meta: {
           icon: 'el-icon-yuan',
           title: '资产清单'
@@ -136,7 +136,7 @@ var router = new Router({
         name: 'classify',
         hidden: false,
         component: () =>
-          import ('@/views/Classify/Classify.vue'),
+          import('@/views/Classify/Classify.vue'),
         meta: {
           icon: 'el-icon-yuan',
           title: '分类使用情况'
@@ -146,38 +146,38 @@ var router = new Router({
         name: 'summary',
         hidden: false,
         component: () =>
-          import ('@/views/Summary/Summary.vue'),
+          import('@/views/Summary/Summary.vue'),
         meta: {
           icon: 'el-icon-yuan',
           title: '分类汇总'
         }
       }]
-    },{
+    }, {
       path: 'set',
       name: 'set',
       hidden: false,
       component: () =>
-        import ('@/views/Set/Set.vue'),
+        import('@/views/Set/Set.vue'),
       meta: {
         icon: 'el-icon-setting',
         title: '设置'
       },
       children: [{
         path: 'orgstruc',
-      name: 'orgstruc',
-      hidden: false,
-      component: () =>
-        import ('@/views/OrgStruc/OrgStruc.vue'),
-      meta: {
-        icon: 'el-icon-rank',
-        title: '组织结构'
+        name: 'orgstruc',
+        hidden: false,
+        component: () =>
+          import('@/views/OrgStruc/OrgStruc.vue'),
+        meta: {
+          icon: 'el-icon-rank',
+          title: '组织结构'
         }
       }, {
         path: 'staff',
         name: 'staff',
         hidden: false,
         component: () =>
-          import ('@/views/Staff/Staff.vue'),
+          import('@/views/Staff/Staff.vue'),
         meta: {
           icon: 'el-icon-yuan',
           title: '员工管理'
@@ -187,44 +187,32 @@ var router = new Router({
         name: 'role',
         hidden: false,
         component: () =>
-          import ('@/views/Role/Role.vue'),
+          import('@/views/Role/Role.vue'),
         meta: {
           icon: 'el-icon-yuan',
           title: '角色管理'
         }
-      },{
+      }, {
         path: 'user',
         name: 'user',
         hidden: false,
         component: () =>
-          import ('@/views/User/User.vue'),
+          import('@/views/User/User.vue'),
         meta: {
           icon: 'el-icon-yuan',
           title: '用户管理'
         }
-      },{
+      }, {
         path: 'assetscla',
         name: 'assetscla',
         hidden: false,
         component: () =>
-          import ('@/views/Assetscla/Assetscla.vue'),
+          import('@/views/Assetscla/Assetscla.vue'),
         meta: {
           icon: 'el-icon-yuan',
           title: '资产分类'
         }
-      },
-      // {
-      //   path: 'assetscode',
-      //   name: 'assetscode',
-      //   hidden: false,
-      //   component: () =>
-      //     import ('@/views/AssetsCode/AssetsCode.vue'),
-      //   meta: {
-      //     icon: 'el-icon-yuan',
-      //     title: '资产编码'
-      //   }
-      // }
-    ]
+      }]
     }]
   }]
 })

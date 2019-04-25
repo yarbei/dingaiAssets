@@ -20,10 +20,10 @@ export default new Vuex.Store({
     }],
     company: [{
       id: 1,
-      name: '西安优逸客',
+      name: '三星',
       children: [{
         id: 101,
-        name: '实训部'
+        name: '技术部'
       },
       {
         id: 102,
@@ -32,10 +32,10 @@ export default new Vuex.Store({
     },
     {
       id: 2,
-      name: '山西优逸客',
+      name: '华为',
       children: [{
         id: 201,
-        name: '人事部'
+        name: '市场部'
       },
       {
         id: 202,
@@ -45,21 +45,21 @@ export default new Vuex.Store({
     staff: [{
       id: 1,
       name: 'tony-1'
-    },{
+    }, {
       id: 2,
       name: 'tony-2'
     }],
     admin: [{
       id: 1,
       name: 'sandy-1'
-    },{
+    }, {
       id: 2,
       name: 'sandy-2'
     }],
     address: [{
       id: 1,
       name: '北区办公室'
-    },{
+    }, {
       id: 2,
       name: '南区办公室'
     }],
