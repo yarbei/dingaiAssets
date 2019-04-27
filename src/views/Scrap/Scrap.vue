@@ -8,7 +8,6 @@
               <el-col :span="13">
                 <el-button type="primary" icon="el-icon-plus" size="small" @click="addReceive">新增</el-button>
                 <el-button type="warning" icon="el-icon-plus" size="small"  @click="delDialogs">还原</el-button>
-                <el-button icon="el-icon-printer" size="small">打印</el-button>
                 <el-button icon="el-icon-printer" size="small" @click="exportExcel">导出</el-button>
               </el-col>
               <el-col :span="11">
@@ -27,14 +26,14 @@
         </el-tabs>
         <!-- 领用资产表格 -->
         <el-table :data="receiveData" border style="width: 100%" align="center" @selection-change="delSelectionChange">
-          <el-table-column type="selection" width="40"></el-table-column>
-          <el-table-column prop="collar_number" label="报废单号" width="200" align="center"></el-table-column>
-          <el-table-column prop="collar_time" label="报修时间" width="200">
+          <el-table-column type="selection"></el-table-column>
+          <el-table-column prop="collar_number" label="报废单号" align="center"></el-table-column>
+          <el-table-column prop="collar_time" label="报修时间">
             <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
           </el-table-column>
-          <el-table-column prop="personnel_name" label="处理人" width="200"></el-table-column>
-          <el-table-column prop="explain" label="说明" width="200" align="center" :show-overflow-tooltip="true"></el-table-column>
-          <el-table-column label="操作" width="100">
+          <el-table-column prop="personnel_name" label="处理人"></el-table-column>
+          <el-table-column prop="explain" label="说明" align="center" :show-overflow-tooltip="true"></el-table-column>
+          <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button @click="seeReceive(scope.row)" type="text" size="small">查看</el-button>
             </template>

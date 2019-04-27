@@ -4,7 +4,6 @@
       <el-col :span="14">
         <el-button type="primary" icon="el-icon-plus" size="small" @click="addReceive">新增</el-button>
         <el-button type="primary" icon="el-icon-xiugai" size="small" @click="returnDialogVisible">归还</el-button>
-        <el-button icon="el-icon-printer" size="small">打印</el-button>
         <el-button icon="el-icon-printer" size="small" @click="exportExcel">导出</el-button>
       </el-col>
       <el-col :span="10">
@@ -20,26 +19,26 @@
     </el-row>
     <!-- 领用资产表格 -->
     <el-table :data="receiveData" border style="width: 100%" @selection-change="returnSelectionChange">
-      <el-table-column fixed type="selection" width="30"></el-table-column>
-      <el-table-column prop="status" label="状态" width="100" align="center">
+      <el-table-column fixed type="selection"></el-table-column>
+      <el-table-column prop="status" label="状态" align="center">
         <template slot-scope="scope">
           <DaAssetsState :status="scope.row.status"></DaAssetsState>
         </template>
       </el-table-column>
-      <el-table-column prop="collar_number" label="借用单号" width="150" align="center"></el-table-column>
-      <el-table-column prop="collar_time" label="借用时间" width="150">
+      <el-table-column prop="collar_number" label="借用单号" align="center"></el-table-column>
+      <el-table-column prop="collar_time" label="借用时间">
         <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
       </el-table-column>
-      <el-table-column prop="personnel_name" label="借用人" width="150"></el-table-column>
-      <el-table-column prop="department_name" label="借用处理人" width="150"></el-table-column>
-      <el-table-column prop="company_name" label="归还处理人" width="150"></el-table-column>
-      <el-table-column prop="collar_time" label="预计归还时间" width="150">
+      <el-table-column prop="personnel_name" label="借用人"></el-table-column>
+      <el-table-column prop="department_name" label="借用处理人"></el-table-column>
+      <el-table-column prop="company_name" label="归还处理人"></el-table-column>
+      <el-table-column prop="collar_time" label="预计归还时间">
         <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
       </el-table-column>
-      <el-table-column prop="collar_time" label="归还时间" width="150">
+      <el-table-column prop="collar_time" label="归还时间">
         <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="60">
+      <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button @click="seeReceive(scope.row)" type="text" size="small">查看</el-button>
         </template>

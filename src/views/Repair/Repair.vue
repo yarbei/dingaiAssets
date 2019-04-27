@@ -5,7 +5,6 @@
       <el-row>
         <el-col :span="14">
           <el-button type="primary" icon="el-icon-plus" size="small" @click="addRepair">新增</el-button>
-          <el-button icon="el-icon-printer" size="small">打印</el-button>
           <el-button icon="el-icon-printer" size="small" @click="exportExcel">导出</el-button>
         </el-col>
         <el-col :span="10">
@@ -22,7 +21,7 @@
       </el-row>
       <!-- 领用资产表格 -->
       <el-table :data="repairData" border style="width: 100%" align="center">
-        <el-table-column prop="status" label="状态" width="120" align="center">
+        <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
             <da-assets-state :status="scope.row.status"></da-assets-state>
           </template>
@@ -36,7 +35,7 @@
         <el-table-column prop="cost" label="维修花费">
           <template slot-scope="scope">{{scope.row.cost | currency}}</template>
         </el-table-column>
-        <el-table-column label="操作" width="120">
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button @click="seeRepair(scope.row)" type="text" size="small">查看</el-button>
             <el-button @click="editRepair(scope.row)" type="text" size="small">编辑</el-button>

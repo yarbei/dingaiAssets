@@ -36,30 +36,30 @@
 	    	   style="width: 100%"
 	    	   align="center"
 	    	   >
-	    	   <el-table-column type="selection" width="30"></el-table-column>
-	    	   <el-table-column prop="status" label="资产状态" width="100" align="center">
+	    	   <el-table-column type="selection"></el-table-column>
+	    	   <el-table-column prop="status" label="资产状态" align="center">
 		    	   	<template slot-scope="scope">
 		    	   		<da-assets-state :status="scope.row.status"></da-assets-state>
 		    	   	</template>
 	    	   </el-table-column>
-	    	   <el-table-column prop="bar_code" label="资产条码" width="150"></el-table-column>
-	    	   <el-table-column prop="name" label="资产名称" width="120"></el-table-column>
-	    	   <el-table-column prop="type_id" label="资产类型" width="100"></el-table-column>
-	    	   <el-table-column prop="specification" label="规格型号" width="100"></el-table-column>
-	    	   <el-table-column prop="sn" label="产品序列" width="100"></el-table-column>
-	    	   <el-table-column prop="money" label="金额" width="100">
+	    	   <el-table-column prop="bar_code" label="资产条码" width="130"></el-table-column>
+	    	   <el-table-column prop="name" label="资产名称"></el-table-column>
+	    	   <el-table-column prop="type_id" label="资产类型"></el-table-column>
+	    	   <el-table-column prop="specification" label="规格型号"></el-table-column>
+	    	   <el-table-column prop="sn" label="产品序列"></el-table-column>
+	    	   <el-table-column prop="money" label="金额">
 	    	   	<template slot-scope="scope">{{scope.row.money | currency}}</template>
 	    	   </el-table-column>
-	    	   <el-table-column prop="company" label="使用公司" width="100"></el-table-column>
-	    	   <el-table-column prop="department" label="使用部门" width="100"></el-table-column>
-	    	   <el-table-column prop="purchase_time" label="购买时间" width="150">
+	    	   <el-table-column prop="company" label="使用公司"></el-table-column>
+	    	   <el-table-column prop="department" label="使用部门"></el-table-column>
+	    	   <el-table-column prop="purchase_time" label="购买时间">
 	    	   	<template slot-scope="scope">{{scope.row.purchase_time | date}}</template>
 	    	   </el-table-column>
-	    	   <el-table-column prop="user_id" label="使用人" width="100"></el-table-column>
-	    	   <el-table-column prop="manager_id" label="管理员" width="100"></el-table-column>
-	    	   <el-table-column prop="address" label="存放地点" width="100"></el-table-column>
-	    	   <el-table-column prop="duration_use" label="使用期限" width="100"></el-table-column>
-	    	   <el-table-column prop="source" label="来源" width="100"></el-table-column>
+	    	   <el-table-column prop="user_id" label="使用人"></el-table-column>
+	    	   <el-table-column prop="manager_id" label="管理员"></el-table-column>
+	    	   <el-table-column prop="address" label="存放地点"></el-table-column>
+	    	   <el-table-column prop="duration_use" label="使用期限"></el-table-column>
+	    	   <el-table-column prop="source" label="来源"></el-table-column>
 	    	   <el-table-column  label="操作" fixed="right"  >
 	    	   	<template slot-scope="scope">
 	    	   		<el-button  type="text" size="small"  @click="seeDialog(scope.row)">查看</el-button>
@@ -478,84 +478,6 @@ export default {
 	      {
 	        id: 8,
 	        bar_code: "0191063662271",
-	        name: "电风扇",
-	        type_id: "03",
-	        specification: "索尼3000",
-	        sn: 49090343,
-	        metering: "台",
-	        money: 280,
-	        company: "南京",
-	        department: "",
-	        purchase_time: "1529254718034",
-	        user_id: 1001,
-	        manager_id: 102,
-	        status: 0,
-	        address: "办公室北区",
-	        duration_use: "",
-	        source: "购入",
-	        remarks: "",
-	        image: "http://placehold.it/200x200",
-	        supplier: "索尼赛格旗舰店",
-	        contacts: "张素芳",
-	        tell: 13131312323,
-	        expiry_time: "1529254718034",
-	        explain: ""
-	      },
-	      {
-	        id: 9,
-	        bar_code: "0191063662252",
-	        name: "电风扇",
-	        type_id: "03",
-	        specification: "索尼3000",
-	        sn: 49090343,
-	        metering: "台",
-	        money: 280,
-	        company: "南京",
-	        department: "",
-	        purchase_time: "1529254718034",
-	        user_id: 1001,
-	        manager_id: 102,
-	        status: 0,
-	        address: "办公室北区",
-	        duration_use: "",
-	        source: "购入",
-	        remarks: "",
-	        image: "http://placehold.it/200x200",
-	        supplier: "索尼赛格旗舰店",
-	        contacts: "张素芳",
-	        tell: 13131312323,
-	        expiry_time: "1529254718034",
-	        explain: ""
-	      },
-	      {
-	        id: 10,
-	        bar_code: "0191063662223",
-	        name: "电风扇",
-	        type_id: "03",
-	        specification: "索尼3000",
-	        sn: 49090343,
-	        metering: "台",
-	        money: 280,
-	        company: "南京",
-	        department: "",
-	        purchase_time: "1529254718034",
-	        user_id: 1001,
-	        manager_id: 102,
-	        status: 0,
-	        address: "办公室北区",
-	        duration_use: "",
-	        source: "购入",
-	        remarks: "",
-	        image: "http://placehold.it/200x200",
-	        supplier: "索尼赛格旗舰店",
-	        contacts: "张素芳",
-	        tell: 13131312323,
-	        expiry_time: "1529254718034",
-	        explain: ""
-	      },
-	      {
-	        id: 11,
-	        bar_code: "0191063662233",
 	        name: "电风扇",
 	        type_id: "03",
 	        specification: "索尼3000",

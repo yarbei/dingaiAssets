@@ -21,7 +21,7 @@
         align="center"
         @selection-change="delSelectionChange"
       >
-        <el-table-column fixed="left" type="selection" width="30"></el-table-column>
+        <el-table-column fixed="left" type="selection"></el-table-column>
         <el-table-column prop="username" label="用户名" ></el-table-column>
         <el-table-column prop="names" label="姓名" ></el-table-column>
         <el-table-column prop="phone" label="联系方式"></el-table-column>

@@ -49,23 +49,23 @@
         style="width: 100%"
         align="center"
         @selection-change="delSelectionChange">
-        <el-table-column fixed="left" type="selection" width="120" align="center"></el-table-column>
-        <el-table-column prop="status" label="在职状态" width="150" align="center">
+        <el-table-column fixed="left" type="selection" align="center"></el-table-column>
+        <el-table-column prop="status" label="在职状态" align="center">
           <!-- <template slot-scope="scope">
             <da-assets-state :status="scope.row.status"></da-assets-state>
           </template> -->
         </el-table-column>
-        <el-table-column prop="type_id" label="员工编号" width="150" align="center"></el-table-column>
-        <el-table-column prop="name" label="员工姓名" width="150" align="center"></el-table-column>
-        <el-table-column prop="company" label="所属公司" width="150" align="center"></el-table-column>
-        <el-table-column prop="department" label="所属部门" width="150" align="center"></el-table-column>
-        <el-table-column prop="tell" label="手机号码" width="150" align="center"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="200" align="center"></el-table-column>
-        <!-- <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column prop="type_id" label="员工编号" align="center"></el-table-column>
+        <el-table-column prop="name" label="员工姓名" align="center"></el-table-column>
+        <el-table-column prop="company" label="所属公司" align="center"></el-table-column>
+        <el-table-column prop="department" label="所属部门" align="center"></el-table-column>
+        <el-table-column prop="tell" label="手机号码" align="center"></el-table-column>
+        <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="seeDialog(scope.row)" type="text" size="small">查看</el-button>
           </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
 
       <!-- 分页 -->
@@ -805,7 +805,7 @@ export default {
         sn: 49090343,
         metering: "台",
         money: 2980,
-        company: "西安优逸客",
+        company: "",
         department: "技术部",
         purchase_time: "Sat Aug 25 2018 23:25:52 GMT+0800 (中国标准时间)",
         user_id: 1001,
@@ -833,7 +833,7 @@ export default {
         sn: 49090343,
         metering: "台",
         money: 280,
-        company: "山西优逸客",
+        company: "",
         department: "技术部",
         purchase_time: "1529254718034",
         user_id: 1001,
@@ -861,7 +861,7 @@ export default {
         sn: 49090343,
         metering: "台",
         money: 280,
-        company: "山西优逸客",
+        company: "三星",
         department: "技术部",
         purchase_time: "1529254718034",
         user_id: 1001,

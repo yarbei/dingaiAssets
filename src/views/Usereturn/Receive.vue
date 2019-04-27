@@ -20,18 +20,18 @@
     </el-row>
     <!-- 领用资产表格 -->
     <el-table :data="receiveData" border style="width: 100%" align="center">
-      <el-table-column fixed="left" type="selection" width="30"></el-table-column>
-      <el-table-column prop="collar_number" label="领用单号" width="150" align="center"></el-table-column>
-      <el-table-column prop="collar_time" label="领用时间" width="150">
+      <el-table-column fixed="left" type="selection" ></el-table-column>
+      <el-table-column prop="collar_number" label="领用单号" align="center"></el-table-column>
+      <el-table-column prop="collar_time" label="领用时间">
         <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
       </el-table-column>
-      <el-table-column prop="personnel_name" label="领用人" width="150"></el-table-column>
-      <el-table-column prop="department_name" label="领用部门" width="150"></el-table-column>
-      <el-table-column prop="company_name" label="领用使用公司" width="150"></el-table-column>
-      <el-table-column prop="collar_time" label="预计退库时间" width="150">
+      <el-table-column prop="personnel_name" label="领用人"></el-table-column>
+      <el-table-column prop="department_name" label="领用部门"></el-table-column>
+      <el-table-column prop="company_name" label="领用使用公司"></el-table-column>
+      <el-table-column prop="collar_time" label="预计退库时间">
         <template slot-scope="scope"></template>
       </el-table-column>
-      <el-table-column  fixed="right" label="操作" width="120">
+      <el-table-column  fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button @click="seeReceive(scope.row)" type="text" size="small">查看</el-button>
         </template>

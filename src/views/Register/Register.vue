@@ -8,23 +8,6 @@
             <el-col :span="18">
               <el-button type="primary" icon="el-icon-plus" size="small" @click="addDialogs">新增</el-button>
               <el-button type="danger" icon="el-icon-delete" size="small" @click="delDialogs">删除</el-button>
-              <el-dropdown split-button type="primary" size="small" style="margin-left:10px">
-                <i class="el-icon-printer"></i>
-                导入导出
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>下载导入模板</el-dropdown-item>
-                  <el-dropdown-item divided>批量导入资产</el-dropdown-item>
-                  <el-dropdown-item divided @click="exportExcel">导出资产</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-              <el-dropdown split-button type="primary" size="small" style="margin-left:10px">
-                <i class="el-icon-printer"></i>
-                打印
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>打印资产标签</el-dropdown-item>
-                  <el-dropdown-item divided>打印资产卡片</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
             </el-col>
             <el-col :span="6">
               <div>
@@ -48,31 +31,31 @@
         style="width: 100%"
         align="center"
         @selection-change="delSelectionChange">
-        <el-table-column fixed="left" type="selection" width="30"></el-table-column>
-        <el-table-column prop="status" label="资产状态" width="100" align="center">
+        <el-table-column fixed="left" type="selection"></el-table-column>
+        <el-table-column prop="status" label="资产状态" align="center">
           <template slot-scope="scope">
             <da-assets-state :status="scope.row.status"></da-assets-state>
           </template>
         </el-table-column>
-        <el-table-column prop="bar_code" label="资产条码" width="150"></el-table-column>
-        <el-table-column prop="name" label="资产名称" width="120"></el-table-column>
-        <el-table-column prop="type_id" label="资产类型" width="100"></el-table-column>
-        <el-table-column prop="specification" label="规格型号" width="100"></el-table-column>
-        <el-table-column prop="sn" label="产品序列" width="100"></el-table-column>
-        <el-table-column prop="money" label="金额" width="100">
+        <el-table-column prop="bar_code" label="资产条码" width="120"></el-table-column>
+        <el-table-column prop="name" label="资产名称"></el-table-column>
+        <el-table-column prop="type_id" label="资产类型"></el-table-column>
+        <el-table-column prop="specification" label="规格型号"></el-table-column>
+        <el-table-column prop="sn" label="产品序列"></el-table-column>
+        <el-table-column prop="money" label="金额">
           <template slot-scope="scope">{{scope.row.money | currency}}</template>
         </el-table-column>
-        <el-table-column prop="company" label="使用公司" width="100"></el-table-column>
-        <el-table-column prop="department" label="使用部门" width="100"></el-table-column>
-        <el-table-column prop="purchase_time" label="购买时间" width="150">
+        <el-table-column prop="company" label="使用公司"></el-table-column>
+        <el-table-column prop="department" label="使用部门"></el-table-column>
+        <el-table-column prop="purchase_time" label="购买时间">
           <template slot-scope="scope">{{scope.row.purchase_time | date}}</template>
         </el-table-column>
-        <el-table-column prop="user_id" label="使用人" width="100"></el-table-column>
-        <el-table-column prop="manager_id" label="管理员" width="100"></el-table-column>
-        <el-table-column prop="address" label="存放地点" width="100"></el-table-column>
-        <el-table-column prop="duration_use" label="使用期限" width="100"></el-table-column>
-        <el-table-column prop="source" label="来源" width="100"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column prop="user_id" label="使用人"></el-table-column>
+        <el-table-column prop="manager_id" label="管理员"></el-table-column>
+        <el-table-column prop="address" label="存放地点"></el-table-column>
+        <el-table-column prop="duration_use" label="使用期限"></el-table-column>
+        <el-table-column prop="source" label="来源"></el-table-column>
+        <el-table-column fixed="right" label="操作">
           <template slot-scope="scope">
             <el-button @click="seeDialog(scope.row)" type="text" size="small">查看</el-button>
             <el-button @click="editDialogs(scope.row)" type="text" size="small">编辑</el-button>

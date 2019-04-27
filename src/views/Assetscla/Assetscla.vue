@@ -8,23 +8,6 @@
             <el-col :span="18">
               <el-button type="primary" icon="el-icon-plus" size="small" @click="addDialogs">新增</el-button>
               <el-button type="danger" icon="el-icon-delete" size="small" @click="delDialogs">删除</el-button>
-              <el-dropdown split-button type="primary" size="small" style="margin-left:10px">
-                <i class="el-icon-printer"></i>
-                导入导出
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>下载导入模板</el-dropdown-item>
-                  <el-dropdown-item divided>批量导入资产分类</el-dropdown-item>
-                  <el-dropdown-item divided @click="exportExcel">导出资产分类</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-              <el-dropdown split-button type="primary" size="small" style="margin-left:10px">
-                <i class="el-icon-printer"></i>
-                打印
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>打印资产分类标签</el-dropdown-item>
-                  <el-dropdown-item divided>打印资产分类卡片</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
             </el-col>
             <!-- 搜索框 -->
             <el-col :span="6">
@@ -50,14 +33,12 @@
         align="center"
         @selection-change="delSelectionChange"
       >
-        <el-table-column fixed="left" type="selection" width="50" align="center"></el-table-column>
-        <el-table-column prop="type_id" label="编号" width="200" align="center"></el-table-column>
-        <el-table-column prop="name" label="名称" width="200" align="center"></el-table-column>
-        <el-table-column prop="duration_use" label="使用年限(月)" width="200" align="center"></el-table-column>
-        <el-table-column prop="company" label="父级" width="200" align="center"></el-table-column>
-        <!-- <el-table-column prop="tell" label="手机号码" width="200" align="center"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="200" align="center"></el-table-column>-->
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column fixed="left" type="selection" align="center"></el-table-column>
+        <el-table-column prop="type_id" label="编号" align="center"></el-table-column>
+        <el-table-column prop="name" label="名称" align="center"></el-table-column>
+        <el-table-column prop="duration_use" label="使用年限(月)" align="center"></el-table-column>
+        <el-table-column prop="company" label="父级" align="center"></el-table-column>
+        <el-table-column fixed="right" label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="seeDialog(scope.row)" type="text" size="small">查看</el-button>
           </template>

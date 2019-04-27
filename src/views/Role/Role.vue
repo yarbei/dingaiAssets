@@ -8,15 +8,6 @@
             <el-col :span="18">
               <el-button type="primary" icon="el-icon-plus" size="small" @click="addReceive">新增</el-button>
               <el-button type="danger" icon="el-icon-delete" size="small" @click="delDialogs">删除</el-button>
-              <el-dropdown split-button type="primary" size="small" style="margin-left:10px">
-                <i class="el-icon-printer"></i>
-                导入导出
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>下载导入模板</el-dropdown-item>
-                  <el-dropdown-item divided>批量导入资产</el-dropdown-item>
-                  <el-dropdown-item divided @click="exportExcel">导出资产</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
               <el-button type="primary" icon="el-icon-plus" size="small" @click="addAuthorization" style="margin-left:10px;">角色授权</el-button>
             </el-col>
             <el-col :span="6">
@@ -36,13 +27,13 @@
       </el-tabs>
       <!-- 角色表格 -->
       <el-table :data="receiveData" border style="width: 100%" align="center" @selection-change="delSelectionChange">
-        <el-table-column type="selection" width="40"></el-table-column>
-        <el-table-column prop="personnel_number" label="员工工号" width="170" align="center"></el-table-column>
-        <el-table-column prop="personnel_name" label="员工姓名" width="170"></el-table-column>
-        <el-table-column prop="company_name" label="所属公司" width="170"></el-table-column>
-        <el-table-column prop="department_name" label="所属部门" width="150"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="150"></el-table-column>
-        <el-table-column prop="phone" label="手机" width="150"></el-table-column>
+        <el-table-column type="selection"></el-table-column>
+        <el-table-column prop="personnel_number" label="员工工号" align="center"></el-table-column>
+        <el-table-column prop="personnel_name" label="员工姓名"></el-table-column>
+        <el-table-column prop="company_name" label="所属公司"></el-table-column>
+        <el-table-column prop="department_name" label="所属部门"></el-table-column>
+        <el-table-column prop="email" label="邮箱"></el-table-column>
+        <el-table-column prop="phone" label="手机"></el-table-column>
       </el-table>
       <!-- 新增角色 -->
       <el-dialog title="新增角色" :visible.sync="addReceiveTableVisible" width="70%">

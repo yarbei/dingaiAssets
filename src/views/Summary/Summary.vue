@@ -27,7 +27,7 @@
 	    	   style="width: 100%"
 	    	   align="center"
 	    	   >
-	    	   <el-table-column type="selection" width="30"></el-table-column>
+	    	   <el-table-column type="selection"></el-table-column>
 	    	   <el-table-column prop="class_code" label="类别编码" ></el-table-column>
 	    	   <el-table-column prop="class_name" label="类别名称" ></el-table-column>
 	    	   <el-table-column prop="assets_num" label="资产数量" ></el-table-column>

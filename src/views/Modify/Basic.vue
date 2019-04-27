@@ -4,7 +4,6 @@
     <el-row>
       <el-col :span="14">
         <el-button type="primary" icon="el-icon-plus" size="small" @click="addReceive">新增</el-button>
-        <el-button icon="el-icon-printer" size="small">打印</el-button>
         <el-button icon="el-icon-printer" size="small" @click="exportExcel">导出</el-button>
       </el-col>
       <el-col :span="10">
@@ -21,18 +20,18 @@
     </el-row>
     <!-- 基本信息变更表格 -->
     <el-table :data="receiveData" border style="width: 100%">
-      <el-table-column type="selection" width="30"></el-table-column>
-      <el-table-column prop="collar_number" label="变更单号" width="150" align="center"></el-table-column>
-      <el-table-column prop="collar_time" label="变更时间" width="150">
+      <el-table-column type="selection"></el-table-column>
+      <el-table-column prop="collar_number" label="变更单号" align="center"></el-table-column>
+      <el-table-column prop="collar_time" label="变更时间">
         <template slot-scope="scope">{{scope.row.collar_time | date}}</template>
       </el-table-column>
-      <el-table-column prop="personnel_name" label="资产名称" width="150"></el-table-column>
-      <el-table-column prop="department_name" label="资产类型" width="150"></el-table-column>
-      <el-table-column prop="personnel_name" label="使用人" width="150"></el-table-column>
-      <el-table-column prop="company_name" label="使用公司" width="300"></el-table-column>
-      <el-table-column prop="department_name" label="使用部门" width="150"></el-table-column>
-      <el-table-column prop="personnel_name" label="管理员" width="150"></el-table-column>
-      <el-table-column label="操作" width="120" fixed="right" align="center">
+      <el-table-column prop="personnel_name" label="资产名称"></el-table-column>
+      <el-table-column prop="department_name" label="资产类型"></el-table-column>
+      <el-table-column prop="personnel_name" label="使用人"></el-table-column>
+      <el-table-column prop="company_name" label="使用公司"></el-table-column>
+      <el-table-column prop="department_name" label="使用部门"></el-table-column>
+      <el-table-column prop="personnel_name" label="管理员"></el-table-column>
+      <el-table-column label="操作" fixed="right" align="center">
         <template slot-scope="scope">
           <el-button @click="seeReceive(scope.row)" type="text" size="small">查看</el-button>
         </template>
